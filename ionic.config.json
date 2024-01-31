@@ -1,0 +1,7 @@
+{
+  "name": "pathsanstha",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
