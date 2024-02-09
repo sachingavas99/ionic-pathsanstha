@@ -6,6 +6,7 @@ const myMixin = {
       title: "Mixins are cool",
       copyright: "All rights reserved. Product of super awesome people",
       openLoader: false,
+      userDetailsMixin: {},
     };
   },
   computed: {
@@ -15,8 +16,17 @@ const myMixin = {
   },
   created: function () {
     // this.greetings();
+    if (this.loggedInUserData()) {
+      this.setUserDetails({
+        email: this.loggedInUserId(),
+        data: this.loggedInUserData(),
+      });
+    }
   },
   methods: {
+    setUserDetails({ email, data }) {
+      this.userDetailsMixin = { email, data };
+    },
     loggedInUserId() {
       return localStorage.getItem("token");
     },
@@ -26,6 +36,12 @@ const myMixin = {
     clearUserData() {
       localStorage.setItem("token", "");
       localStorage.setItem("userDetails", "");
+      this.userDetails = {};
+    },
+    logoutMixin() {
+      this.clearUserData();
+      this.$router.push("login");
+      this.success("Logged out successfully!");
     },
     loadderOn() {
       this.openLoader = true;

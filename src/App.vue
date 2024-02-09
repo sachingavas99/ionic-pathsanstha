@@ -4,8 +4,8 @@
       <ion-menu v-if="$route.name != 'login'" content-id="main-content" type="overlay">
         <ion-content>
           <ion-list id="inbox-list">
-            <ion-list-header>Inbox</ion-list-header>
-            <ion-note>hi@ionicframework.com</ion-note>
+            <ion-list-header>Logged In</ion-list-header>
+            <ion-note>{{ userDetailsMixin.data.name || userDetailsMixin.email }}</ion-note>
 
             <ion-menu-toggle
               :auto-hide="false"
@@ -28,6 +28,27 @@
                   :md="p.mdIcon"
                 ></ion-icon>
                 <ion-label>{{ p.title }}</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+
+            <ion-menu-toggle
+              :auto-hide="false"
+            >
+              <ion-item
+                @click="logoutMixin"
+                router-direction="root"
+                router-link="#"
+                lines="none"
+                :detail="false"
+                class="hydrated"
+              >
+                <ion-icon
+                  aria-hidden="true"
+                  slot="start"
+                  :ios="powerSharp"
+                  :md="powerOutline"
+                ></ion-icon>
+                <ion-label>Logout</ion-label>
               </ion-item>
             </ion-menu-toggle>
           </ion-list>
@@ -70,7 +91,9 @@ import {
   menuOutline,
   menuSharp,
   apertureOutline,
-  apertureSharp
+  apertureSharp,
+  powerOutline,
+  powerSharp
 } from "ionicons/icons";
 
 const selectedIndex = ref(0);

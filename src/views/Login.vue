@@ -19,7 +19,10 @@
               v-model="email"
               labelPlacement="floating"
               value="hi@ionic.io"
-              :class="{'ion-invalid': !validation.email, 'ion-touched': !validation.email}"
+              :class="{
+                'ion-invalid': !validation.email,
+                'ion-touched': !validation.email,
+              }"
               error-text="Invalid email"
               @input="validateForm"
             >
@@ -35,7 +38,10 @@
               labelPlacement="floating"
               value="hi@ionic.io"
               type="password"
-              :class="{'ion-invalid': !validation.passward, 'ion-touched': !validation.passward}"
+              :class="{
+                'ion-invalid': !validation.passward,
+                'ion-touched': !validation.passward,
+              }"
               error-text="Invalid password"
               @input="validateForm"
             >
@@ -60,7 +66,7 @@
 
 <script>
 import api from "@/api";
-import validator from 'validator';
+import validator from "validator";
 
 export default {
   watch: {},
@@ -70,48 +76,49 @@ export default {
       password: "",
       validation: {
         email: true,
-        passward: true
-      }
+        passward: true,
+      },
     };
   },
   methods: {
     validateForm() {
       this.validation.email = !validator.isEmpty(this.email);
       this.validation.passward = !validator.isEmpty(this.password);
-      if(!this.validation.email) {
+      if (!this.validation.email) {
         return "Pleae enter valid email";
       }
-      if(!this.validation.passward) {
+      if (!this.validation.passward) {
         return "Pleae enter valid password";
       }
     },
     async login() {
       try {
         const error = this.validateForm();
-        if(error) {
+        if (error) {
           this.error(error);
           return;
         }
         this.loadderOn();
-        const response = await api.login('/vcp.java/servlet/MobileLogin', {
-          "email": this.email,
-          "passward": this.password
-          });
-          alert(response);
-          alert(JSON.stringify(response));
-        if(response?.data?.message == "Success") {
-          localStorage.setItem('token', this.email);
-          localStorage.setItem('userDetails', JSON.stringify(response.data));
-          this.success('Logged in successfully');
-          this.$router.push('userDetails');
+        const response = await api.login("/vcp.java/servlet/MobileLogin", {
+          email: this.email,
+          passward: this.password,
+        });
+        // alert(response);
+        // alert(JSON.stringify(response));
+        if (response?.data?.message == "Success") {
+          localStorage.setItem("token", this.email);
+          localStorage.setItem("userDetails", JSON.stringify(response.data));
+          this.setUserDetails({email: this.email, data: response.data});
+          this.success("Logged in successfully");
+          this.$router.push("userDetails");
         } else {
-          this.error("Wrong userid or password is entered.")
+          this.error("Wrong userid or password is entered.");
         }
       } catch (error) {
-        alert( JSON.stringify(error) )
+        alert(JSON.stringify(error));
         alert(error);
         console.error(error);
-        this.error("Something went wrong while login. Contat to admin.")
+        this.error("Something went wrong while login. Contat to admin.");
       }
       this.loadderOff();
     },

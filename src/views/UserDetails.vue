@@ -84,6 +84,8 @@ import api from "@/api";
 import validator from 'validator';
 
 export default {
+  props: {
+  },
   watch: {},
   data() {
     return {
@@ -119,6 +121,10 @@ export default {
 
         if(response?.data?.name) {
           this.userDetails = response.data;
+          this.setUserDetails({
+            email: this.loggedInUserId(),
+            data: JSON.parse( JSON.stringify( response.data)),
+          });
         } else {
           this.error("Something went wrong while fetching user details. Please login again.")
           this.clearUserData();
