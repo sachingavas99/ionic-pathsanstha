@@ -11,7 +11,7 @@
     "test:unit": "vitest",
     "lint": "eslint .",
     "open-android": "npm run build && npx cap open android",
-    "sync-andoird": "ionic capacitor sync android"
+    "sync-android": "ionic capacitor sync android"
   },
   "dependencies": {
     "@capacitor-community/http": "^0.3.2",
