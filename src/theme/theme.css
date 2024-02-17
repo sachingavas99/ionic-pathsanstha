@@ -1,0 +1,12 @@
+ion-content, ion-toolbar, ion-list, ion-item, ion-page, ion-modal {
+  --background: var(--custom-background) !important;
+  background: var(--custom-background) !important;
+}
+
+ion-text, ion-input {
+  --color: var(--custom-text-color) !important;
+  color: var(--custom-text-color) !important;
+  
+  --background: var(--custom-background) !important;
+  background: var(--custom-background) !important;
+}

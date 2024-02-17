@@ -71,9 +71,9 @@ export default {
         this.loadderOn();
         const userId = this.loggedInUserId();
         const response = await api.post('/vcp.java/servlet/MobileStatement', {
-          "email": userId
+          "email": userId,
+          'type': 'A'
         });
-
         if(response?.data) {
           this.transactions = response.data;
         }
