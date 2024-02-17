@@ -6,7 +6,11 @@
       <ion-buttons slot="start">
         <ion-menu-button color="primary"></ion-menu-button>
       </ion-buttons>
-      <ion-title>Dashboard</ion-title>
+      <ion-title>
+        <div class="title-wrapper">
+          <ion-text>Malkapur Urban Co-Op Credit Society</ion-text>        
+        </div>
+      </ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -214,5 +218,9 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .title-wrapper ion-text {
+    font-size: 18px;
   }
 </style>
