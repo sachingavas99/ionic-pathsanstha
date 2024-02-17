@@ -4,6 +4,7 @@ import UserDetails from "@/views/UserDetails.vue";
 import SameBankTransfer from "@/views/SameBankTransfer.vue";
 import OtherBankTransfer from "@/views/OtherBankTransfer.vue";
 import Statement from "@/views/Statement.vue";
+import Home from "@/views/Home.vue";
 
 const routes = [
   {
@@ -34,6 +35,11 @@ const routes = [
     name: "Statement",
     path: "/Statement",
     component: Statement,
+  },
+  {
+    name: "Home",
+    path: "/Home",
+    component: Home,
   },
 ];
 

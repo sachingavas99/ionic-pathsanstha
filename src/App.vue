@@ -5,7 +5,7 @@
         <ion-content>
           <ion-list id="inbox-list">
             <ion-list-header>Logged In</ion-list-header>
-            <ion-note>{{ userDetailsMixin.data.name || userDetailsMixin.email }}</ion-note>
+            <ion-note>{{ userDetailsMixin?.data?.name || userDetailsMixin.email }}</ion-note>
 
             <ion-menu-toggle
               :auto-hide="false"
@@ -74,12 +74,12 @@ import {
   IonMenuToggle,
   IonNote,
   IonRouterOutlet,
-  IonSplitPane,
+  IonSplitPane,  
 } from "@ionic/vue";
 import { ref } from "vue";
 import {
-  bookmarkOutline,
-  bookmarkSharp,
+  // bookmarkOutline,
+  // bookmarkSharp,
   mailOutline,
   mailSharp,
   cogOutline,
@@ -93,14 +93,24 @@ import {
   apertureOutline,
   apertureSharp,
   powerOutline,
-  powerSharp
+  powerSharp,
+  homeOutline,
+  homeSharp
 } from "ionicons/icons";
 
 const selectedIndex = ref(0);
 const appPages = [
+
+{
+    title: "Home",
+    url: "/Home",
+    iosIcon: homeOutline,
+    mdIcon: homeSharp,
+  },
+
   {
     title: "Account Details",
-    url: "/folder/Inbox",
+    url: "/UserDetails",
     iosIcon: mailOutline,
     mdIcon: mailSharp,
   },
