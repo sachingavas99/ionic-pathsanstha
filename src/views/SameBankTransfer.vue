@@ -45,11 +45,15 @@
           </ion-item>
         </ion-list>
       </div>
+      
+      <template v-if="openConfirmationModal">
+        <ConfirmationBeforeTransaction @userConfirmation="onUserConfirm"></ConfirmationBeforeTransaction>
+      </template>
     </ion-content>
 
     <ion-footer>
       <ion-toolbar>
-        <ion-button @click="transfer" expand="full" shape="round"
+        <ion-button @click="openUserConfirmationPopup" expand="full" shape="round"
           >Transfer</ion-button
         >
       </ion-toolbar>
@@ -60,14 +64,17 @@
 <script>
 import api from "@/api";
 import validator from 'validator';
+import ConfirmationBeforeTransaction from './ConfirmationBeforeTransaction.vue';
 
 export default {
   watch: {},
+  components: {ConfirmationBeforeTransaction},
   data() {
     return {
       userId: "",
       amount: "",
       ben_account: "",
+      openConfirmationModal: false,
       validation: {
         amount: true,
         ben_account: true
@@ -83,6 +90,15 @@ export default {
     this.userId = this.loggedInUserId();
   },
   methods: {
+    openUserConfirmationPopup() {
+      const errorMessage = this.validateForm();
+      if(errorMessage) {
+        this.error(errorMessage);
+        return;
+      }
+
+      this.openConfirmationModal = true;
+    },
     validateForm() {
       this.validation.amount = validator.isFloat(this.amount, { min: 1.00, max: 100000.00 });
       this.validation.ben_account = !validator.isEmpty(this.ben_account) && validator.isLength(this.ben_account, {min: 10, max: 14}) && validator.isAlphanumeric(this.ben_account);
@@ -92,6 +108,10 @@ export default {
       if(!this.validation.ben_account) {
         return "Pleae enter valid beneficiary account number.";
       }
+    },
+    onUserConfirm() {
+      this.openConfirmationModal = false;
+      this.transfer();
     },
     async transfer() {
       try {
@@ -112,9 +132,13 @@ export default {
 
         if(response?.data) {
           this.success("Transaction succeed.")
+            this.openConfirmationModal = false;
+            this.loadderOff();
+          this.$router.push('Home');
         } else {
           this.error("Transaction failed. Please try again or contact to admin.")
           this.clearUserData();
+          this.loadderOff();
           this.$router.push('login');
         }
       } catch (error) {

@@ -75,11 +75,14 @@
           </ion-item>
         </ion-list>
       </div>
+ <template v-if="openConfirmationModal">
+        <ConfirmationBeforeTransaction @userConfirmation="onUserConfirm"></ConfirmationBeforeTransaction>
+      </template>
     </ion-content>
 
     <ion-footer>
       <ion-toolbar>
-        <ion-button @click="transfer" expand="full" shape="round"
+        <ion-button @click="openUserConfirmationPopup" expand="full" shape="round"
           >Transfer</ion-button
         >
       </ion-toolbar>
@@ -90,9 +93,11 @@
 <script>
 import api from "@/api";
 import validator from 'validator';
+import ConfirmationBeforeTransaction from './ConfirmationBeforeTransaction.vue';
 
 export default {
   watch: {},
+  components: {ConfirmationBeforeTransaction},
   data() {
     return {
       userId: "",
@@ -100,6 +105,7 @@ export default {
       ben_account: "",
       ifsc_code: "",
       bank_name: "",
+      openConfirmationModal: false,
       validation: {
         amount: true,
         ben_account: true,
@@ -117,11 +123,19 @@ export default {
     this.userId = this.loggedInUserId();
   },
   methods: {
+     openUserConfirmationPopup() {
+      const errorMessage = this.validateForm();
+      if(errorMessage) {
+        this.error(errorMessage);
+        return;
+      }
+      this.openConfirmationModal = true;
+    },
     validateForm() {
       this.validation.amount = validator.isFloat(this.amount, { min: 1.00, max: 100000.00 });
       this.validation.ben_account = !validator.isEmpty(this.ben_account) && validator.isLength(this.ben_account, {min: 10, max: 14}) && validator.isAlphanumeric(this.ben_account);
-      this.validation.ifsc_code = !validator.isEmpty(this.amount) && validator.isLength(this.amount, { min: 4, max: 10 });
-      this.validation.bank_name = !validator.isEmpty(this.amount) && validator.isLength(this.amount, { min: 4, max: 30 });
+      this.validation.ifsc_code = !validator.isEmpty(this.ifsc_code) && validator.isLength(this.ifsc_code, { min: 4, max: 10 });
+      this.validation.bank_name = !validator.isEmpty(this.bank_name) && validator.isLength(this.bank_name, { min: 4, max: 30 });
       
 
       if(!this.validation.amount) {
@@ -136,6 +150,9 @@ export default {
       if(!this.validation.bank_name) {
         return "Pleae enter valid bank name.";
       }
+    },
+     onUserConfirm() {
+      this.transfer();
     },
     async transfer() {
       try {
@@ -153,12 +170,14 @@ export default {
           "bene_account": this.ben_account,
           "amount": this.amount,
           "rtgs_neft": "R",
-          "ben_ifsc": this.ifsc_code,
+          "bene_ifsc": this.ifsc_code,
           "bene_bankname": this.bank_name
         });
 
         if(response?.data) {
           this.success("Transaction succeed.")
+           this.openConfirmationModal = false;
+          this.$router.push('Home');
         } else {
           this.error("Transaction failed. Please try again or contact to admin.")
           this.clearUserData();

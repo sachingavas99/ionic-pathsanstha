@@ -47,6 +47,7 @@ import {
   IonCardHeader,
   IonCardContent,
   IonCardTitle,
+  IonModal,
 } from "@ionic/vue";
 
 const app = createApp(App).use(IonicVue).use(router);
@@ -73,6 +74,7 @@ app.component("ion-icon", IonIcon);
 app.component("ion-card-header", IonCardHeader);
 app.component("ion-card-content", IonCardContent);
 app.component("ion-card-title", IonCardTitle);
+app.component("ion-modal", IonModal);
 
 app.mixin(mixin);
 

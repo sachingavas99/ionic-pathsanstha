@@ -12,6 +12,7 @@
 
   <ion-content>
     <ion-grid>
+          <!-- <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" /> -->
       <ion-row>
         <ion-col size="6">
           <ion-card color="primary" router-link="/UserDetails">
@@ -90,7 +91,7 @@
         <!-- Add more cards as needed -->
       </ion-row>
       
-      <ion-row>
+    <ion-row>
         <ion-col size="6">
           <ion-card color="warning" router-link="/Statement">
             <ion-card-header>
@@ -107,8 +108,59 @@
             </ion-card-content>
           </ion-card>
         </ion-col>
-
+ <ion-col size="6">
+          <ion-card color="medium" router-link="/AccountsDetails">
+            <ion-card-header>
+              <ion-card-title>Accounts</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="card-content-wrapper">
+                <ion-icon
+                    slot="start"
+                    :ios="accessibilitySharp"
+                    :md="accessibilityOutline"
+                  ></ion-icon>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
       </ion-row>
+
+<ion-row>
+        <ion-col size="6">
+          <ion-card color="light" router-link="/folder/Spam">
+            <ion-card-header>
+              <ion-card-title>QR Collection</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="card-content-wrapper">
+                <ion-icon
+                    slot="start"
+                    :ios="qrCodeSharp"
+                    :md="qrCodeOutline"
+                  ></ion-icon>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+  <ion-col size="6">
+          <ion-card color="warning" router-link="/folder/Spam">
+            <ion-card-header>
+              <ion-card-title>Fast Tag</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="card-content-wrapper">
+                <ion-icon
+                    slot="start"
+                    :ios="bookmarkSharp"
+                    :md="bookmarkOutline"
+                  ></ion-icon>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col> 
+      </ion-row>
+
     </ion-grid>
   </ion-content>
 
@@ -118,7 +170,7 @@
 
 
 <script>
-import {mailOutline, mailSharp, menuSharp, menuOutline, sendOutline, sendSharp, personAddOutline, personAddSharp} from "ionicons/icons";
+import {mailOutline, mailSharp, menuSharp, menuOutline, sendOutline, sendSharp, personAddOutline, personAddSharp, accessibilityOutline, accessibilitySharp, qrCodeOutline, qrCodeSharp, bookmarkOutline, bookmarkSharp} from "ionicons/icons";
 export default {
   watch: {},
   data() {
@@ -130,7 +182,13 @@ export default {
       sendOutline,
       sendSharp,
       personAddOutline,
-      personAddSharp
+      personAddSharp,
+      accessibilityOutline,
+      accessibilitySharp,
+      qrCodeOutline,
+      qrCodeSharp,
+      bookmarkOutline, 
+      bookmarkSharp
     };
   },
   methods: {},

@@ -5,6 +5,7 @@ import SameBankTransfer from "@/views/SameBankTransfer.vue";
 import OtherBankTransfer from "@/views/OtherBankTransfer.vue";
 import Statement from "@/views/Statement.vue";
 import Home from "@/views/Home.vue";
+import AccountsDetails from "@/views/Accountsdetails.vue";
 
 const routes = [
   {
@@ -40,6 +41,11 @@ const routes = [
     name: "Home",
     path: "/Home",
     component: Home,
+  },
+  {
+    name: "AccountsDetails",
+    path: "/AccountsDetails",
+    component: AccountsDetails,
   },
 ];
 

@@ -4,7 +4,7 @@
       <ion-menu v-if="$route.name != 'login'" content-id="main-content" type="overlay">
         <ion-content>
           <ion-list id="inbox-list">
-            <ion-list-header>Logged In</ion-list-header>
+            <ion-list-header>User</ion-list-header>
             <ion-note>{{ userDetailsMixin?.data?.name || userDetailsMixin.email }}</ion-note>
 
             <ion-menu-toggle
@@ -140,7 +140,7 @@ const appPages = [
   },
   {
     title: "All Accounts",
-    url: "/folder/Spam",
+    url: "/AccountsDetails",
     iosIcon: apertureOutline,
     mdIcon: apertureSharp,
   },
