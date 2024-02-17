@@ -110,7 +110,7 @@ export default {
           localStorage.setItem("userDetails", JSON.stringify(response.data));
           this.setUserDetails({email: this.email, data: response.data});
           this.success("Logged in successfully");
-          this.$router.push("userDetails");
+          this.$router.push("Home");
         } else {
           this.error("Wrong userid or password is entered.");
         }
