@@ -75,8 +75,9 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
 
-
-  --custom-background: #fff;
+  /* --custom-background: #fff; */
+  /* --custom-text-color: 000000; */
+  --custom-background: #b6d9c9;
   --custom-text-color: 000000;
 }
 
@@ -193,7 +194,6 @@ http://ionicframework.com/docs/theming/ */
     --ion-toolbar-background: var(--ion-color-step-150);
     --ion-toolbar-border-color: var(--ion-color-step-250);
   } */
-
 
   /*
    * Material Design Dark Theme

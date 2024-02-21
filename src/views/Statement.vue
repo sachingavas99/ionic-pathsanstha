@@ -13,14 +13,23 @@
 
     <ion-content :fullscreen="true">
       <div class="container">
-        <ion-grid v-if="transactions.length">
+        <ion-grid class="header-col">
+          <ion-row>
+            <ion-col>Date</ion-col>
+            <ion-col>Particular</ion-col>
+            <ion-col>Amount</ion-col>
+            <ion-col>Type</ion-col>
+            <ion-col>Balance</ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <ion-grid v-if="transactions.length" class="data-col">
           <ion-row v-for="(transaction, index) in transactions" :key="index">
-            <ion-col>1</ion-col>
-            <ion-col>2</ion-col>
-            <ion-col>3</ion-col>
-            <ion-col>4</ion-col>
-            <ion-col>5</ion-col>
-            <ion-col>6</ion-col>
+            <ion-col>{{ transaction.DATE }}</ion-col>
+            <ion-col>{{ transaction.PARTICULAR }}</ion-col>
+            <ion-col>{{ transaction.AMOUNT }}</ion-col>
+            <ion-col>{{ transaction.TRNTYPE }}</ion-col>
+            <ion-col>{{ transaction.BALANCE }}</ion-col>
           </ion-row>
         </ion-grid>
 
@@ -38,13 +47,13 @@
 
 <script>
 import api from "@/api";
-import validator from 'validator';
+import validator from "validator";
 
 export default {
   watch: {},
   data() {
     return {
-      transactions: []
+      transactions: [],
     };
   },
   computed: {
@@ -59,10 +68,10 @@ export default {
     validateForm() {
       this.validation.email = !validator.isEmpty(this.email);
       this.validation.passward = !validator.isEmpty(this.password);
-      if(!this.validation.email) {
+      if (!this.validation.email) {
         return "Pleae enter valid email";
       }
-      if(!this.validation.passward) {
+      if (!this.validation.passward) {
         return "Pleae enter valid password";
       }
     },
@@ -70,22 +79,42 @@ export default {
       try {
         this.loadderOn();
         const userId = this.loggedInUserId();
-        const response = await api.post('/vcp.java/servlet/MobileStatement', {
-          "email": userId,
-          'type': 'A'
+        const response = await api.post("/vcp.java/servlet/MobileStatement", {
+          email: userId,
+          type: "A",
         });
-        if(response?.data) {
-          this.transactions = response.data;
+
+        // console.log(JSON.stringify(response?.data));
+        // console.log("Response:", response.data);
+
+        if (response.data && response.data.statement) {
+          // Parse the JSON string into an array of objects
+          const statementArray = JSON.parse(response.data.statement);
+
+          if (Array.isArray(statementArray)) {
+            this.transactions = statementArray;
+          } else {
+            console.error("Invalid statement format:", response.data.statement);
+          }
+        } else {
+          console.log("No transactions found.");
         }
+
+        // console.log(JSON.stringify(response?.data));
+        // console.log(response?.data?.statement);
+        // if (response?.data) {
+        //   this.transactions = response.data.statement;
+        //   console.log("tra" + this.transactions);
+        //   // this.$emit("transactions", { transactions });
+        // }
       } catch (error) {
-        this.error("Something went wrong while fetching transaction details.")
+        this.error("Something went wrong while fetching transaction details.");
         this.clearUserData();
-        this.$router.push('login');
+        this.$router.push("login");
       }
       this.loadderOff();
     },
   },
-  
 };
 </script>
 
@@ -104,5 +133,18 @@ export default {
 
 #container a {
   text-decoration: none;
+}
+
+.header-col {
+  font-weight: bold;
+  text-align: center;
+}
+ion-title {
+  color: #7c89e3;
+  font-size: 25px;
+}
+.data-col {
+  font-size: 12px;
+  text-align: center;
 }
 </style>

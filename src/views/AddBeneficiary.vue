@@ -1,5 +1,5 @@
 <template>
-  <ion-page>
+  <ion-page color="primary">
     <ion-loading class="custom-loading" :isOpen="showLoader"> </ion-loading>
 
     <ion-header :translucent="true">
@@ -7,11 +7,12 @@
         <ion-buttons slot="start">
           <ion-menu-button color="primary"></ion-menu-button>
         </ion-buttons>
-        <ion-title>Accounts</ion-title>
+        <ion-title>In Progress</ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content :fullscreen="true">
+      <!-- <ion-content :fullscreen="true">
       <div class="container">
         <ion-grid class="header-col">
           <ion-row>
@@ -36,7 +37,7 @@
             </ion-label>
           </ion-item>
         </ion-list>
-      </div>
+      </div> -->
     </ion-content>
   </ion-page>
 </template>
@@ -58,54 +59,52 @@ export default {
     },
   },
   mounted() {
-    this.fetchTransactions();
+    // this.fetchTransactions();
   },
   methods: {
-    validateForm() {
-      this.validation.email = !validator.isEmpty(this.email);
-      this.validation.passward = !validator.isEmpty(this.password);
-      if (!this.validation.email) {
-        return "Pleae enter valid email";
-      }
-      if (!this.validation.passward) {
-        return "Pleae enter valid password";
-      }
-    },
-    async fetchTransactions() {
-      try {
-        this.loadderOn();
-        const userId = this.loggedInUserId();
-        const response = await api.post("/vcp.java/servlet/MobileStatement", {
-          email: userId,
-          type: "C",
-        });
-        // console.log(JSON.stringify(response?.data));
-
-        // console.log("Response:", response.data);
-
-        if (response.data && response.data.statement) {
-          // Parse the JSON string into an array of objects
-          const statementArray = JSON.parse(response.data.statement);
-          if (Array.isArray(statementArray)) {
-            this.transactions = statementArray;
-          } else {
-            console.error("Invalid statement format:", response.data.statement);
-          }
-        } else {
-          console.log("No transactions found."); // Log if no transactions found
-        }
-      } catch (error) {
-        this.error("Something went wrong while fetching transaction details.");
-        this.clearUserData();
-        this.$router.push("login");
-      }
-      this.loadderOff();
-    },
+    // validateForm() {
+    //   this.validation.email = !validator.isEmpty(this.email);
+    //   this.validation.passward = !validator.isEmpty(this.password);
+    //   if (!this.validation.email) {
+    //     return "Pleae enter valid email";
+    //   }
+    //   if (!this.validation.passward) {
+    //     return "Pleae enter valid password";
+    //   }
+    // },
+    // async fetchTransactions() {
+    //   try {
+    //     this.loadderOn();
+    //     const userId = this.loggedInUserId();
+    //     const response = await api.post("/vcp.java/servlet/MobileStatement", {
+    //       email: userId,
+    //       type: "C",
+    //     });
+    //     // console.log(JSON.stringify(response?.data));
+    //     // console.log("Response:", response.data);
+    //     if (response.data && response.data.statement) {
+    //       // Parse the JSON string into an array of objects
+    //       const statementArray = JSON.parse(response.data.statement);
+    //       if (Array.isArray(statementArray)) {
+    //         this.transactions = statementArray;
+    //       } else {
+    //         console.error("Invalid statement format:", response.data.statement);
+    //       }
+    //     } else {
+    //       console.log("No transactions found."); // Log if no transactions found
+    //     }
+    //   } catch (error) {
+    //     this.error("Something went wrong while fetching transaction details.");
+    //     this.clearUserData();
+    //     this.$router.push("login");
+    //   }
+    //   this.loadderOff();
+    // },
   },
 };
 </script>
 
-<style scoped>
+<!-- <style scoped>
 #container strong {
   font-size: 20px;
   line-height: 26px;
@@ -137,4 +136,4 @@ ion-title {
   font-size: 12px;
   text-align: left;
 }
-</style>
+</style> -->

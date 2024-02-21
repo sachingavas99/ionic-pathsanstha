@@ -1,11 +1,17 @@
 <template>
   <ion-app>
     <ion-split-pane content-id="main-content">
-      <ion-menu v-if="$route.name != 'login'" content-id="main-content" type="overlay">
+      <ion-menu
+        v-if="$route.name != 'login'"
+        content-id="main-content"
+        type="overlay"
+      >
         <ion-content>
           <ion-list id="inbox-list">
             <ion-list-header>User</ion-list-header>
-            <ion-note>{{ userDetailsMixin?.data?.name || userDetailsMixin.email }}</ion-note>
+            <ion-note>{{
+              userDetailsMixin?.data?.name || userDetailsMixin.email
+            }}</ion-note>
 
             <ion-menu-toggle
               :auto-hide="false"
@@ -31,9 +37,7 @@
               </ion-item>
             </ion-menu-toggle>
 
-            <ion-menu-toggle
-              :auto-hide="false"
-            >
+            <ion-menu-toggle :auto-hide="false">
               <ion-item
                 @click="logoutMixin"
                 router-direction="root"
@@ -43,19 +47,19 @@
                 class="hydrated"
               >
                 <ion-icon
+                  color="danger"
                   aria-hidden="true"
                   slot="start"
                   :ios="powerSharp"
                   :md="powerOutline"
                 ></ion-icon>
-                <ion-label>Logout</ion-label>
+                <ion-label color="danger">Logout</ion-label>
               </ion-item>
             </ion-menu-toggle>
           </ion-list>
-
         </ion-content>
       </ion-menu>
-      
+
       <ion-router-outlet id="main-content"></ion-router-outlet>
     </ion-split-pane>
   </ion-app>
@@ -74,7 +78,7 @@ import {
   IonMenuToggle,
   IonNote,
   IonRouterOutlet,
-  IonSplitPane,  
+  IonSplitPane,
 } from "@ionic/vue";
 import { ref } from "vue";
 import {
@@ -95,13 +99,12 @@ import {
   powerOutline,
   powerSharp,
   homeOutline,
-  homeSharp
+  homeSharp,
 } from "ionicons/icons";
 
 const selectedIndex = ref(0);
 const appPages = [
-
-{
+  {
     title: "Home",
     url: "/Home",
     iosIcon: homeOutline,
@@ -146,12 +149,10 @@ const appPages = [
   },
   {
     title: "Change Password",
-    url: "/folder/Spam",
+    url: "/ChangePassword",
     iosIcon: cogOutline,
     mdIcon: cogSharp,
   },
-
-  
 ];
 
 const path = window.location.pathname.split("folder/")[1];

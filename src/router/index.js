@@ -6,6 +6,10 @@ import OtherBankTransfer from "@/views/OtherBankTransfer.vue";
 import Statement from "@/views/Statement.vue";
 import Home from "@/views/Home.vue";
 import AccountsDetails from "@/views/Accountsdetails.vue";
+import ChangePassword from "@/views/ChangePassword.vue";
+import AddBeneficiary from "@/views/AddBeneficiary.vue";
+import QRCollection from "@/views/QRCollection.vue";
+import FastTag from "@/views/FastTag.vue";
 
 const routes = [
   {
@@ -46,6 +50,26 @@ const routes = [
     name: "AccountsDetails",
     path: "/AccountsDetails",
     component: AccountsDetails,
+  },
+  {
+    name: "ChangePassword",
+    path: "/ChangePassword",
+    component: ChangePassword,
+  },
+  {
+    name: "AddBeneficiary",
+    path: "/AddBeneficiary",
+    component: AddBeneficiary,
+  },
+  {
+    name: "QRCollection",
+    path: "/QRCollection",
+    component: QRCollection,
+  },
+  {
+    name: "FastTag",
+    path: "/FastTag",
+    component: FastTag,
   },
 ];
 
