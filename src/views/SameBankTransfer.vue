@@ -19,7 +19,10 @@
               v-model="amount"
               labelPlacement="floating"
               value=""
-              :class="{'ion-invalid': !validation.amount, 'ion-touched': !validation.amount}"
+              :class="{
+                'ion-invalid': !validation.amount,
+                'ion-touched': !validation.amount,
+              }"
               error-text="Invalid Amount"
               @input="validateForm"
             >
@@ -34,26 +37,35 @@
               v-model="ben_account"
               labelPlacement="floating"
               value="00.00"
-              :class="{'ion-invalid': !validation.ben_account, 'ion-touched': !validation.ben_account}"
+              :class="{
+                'ion-invalid': !validation.ben_account,
+                'ion-touched': !validation.ben_account,
+              }"
               error-text="Invalid beneficiary account"
               @input="validateForm"
             >
               <div slot="label">
-                Beneficiary Account Number <ion-text color="danger">(Required)</ion-text>
+                Beneficiary Account Number
+                <ion-text color="danger">(Required)</ion-text>
               </div>
             </ion-input>
           </ion-item>
         </ion-list>
       </div>
-      
+
       <template v-if="openConfirmationModal">
-        <ConfirmationBeforeTransaction @userConfirmation="onUserConfirm"></ConfirmationBeforeTransaction>
+        <ConfirmationBeforeTransaction
+          @userConfirmation="onUserConfirm"
+        ></ConfirmationBeforeTransaction>
       </template>
     </ion-content>
 
     <ion-footer>
       <ion-toolbar>
-        <ion-button @click="openUserConfirmationPopup" expand="full" shape="round"
+        <ion-button
+          @click="openUserConfirmationPopup"
+          expand="full"
+          shape="round"
           >Transfer</ion-button
         >
       </ion-toolbar>
@@ -63,12 +75,12 @@
 
 <script>
 import api from "@/api";
-import validator from 'validator';
-import ConfirmationBeforeTransaction from './ConfirmationBeforeTransaction.vue';
+import validator from "validator";
+import ConfirmationBeforeTransaction from "./ConfirmationBeforeTransaction.vue";
 
 export default {
   watch: {},
-  components: {ConfirmationBeforeTransaction},
+  components: { ConfirmationBeforeTransaction },
   data() {
     return {
       userId: "",
@@ -77,8 +89,8 @@ export default {
       openConfirmationModal: false,
       validation: {
         amount: true,
-        ben_account: true
-      }
+        ben_account: true,
+      },
     };
   },
   computed: {
@@ -92,7 +104,7 @@ export default {
   methods: {
     openUserConfirmationPopup() {
       const errorMessage = this.validateForm();
-      if(errorMessage) {
+      if (errorMessage) {
         this.error(errorMessage);
         return;
       }
@@ -100,12 +112,18 @@ export default {
       this.openConfirmationModal = true;
     },
     validateForm() {
-      this.validation.amount = validator.isFloat(this.amount, { min: 1.00, max: 100000.00 });
-      this.validation.ben_account = !validator.isEmpty(this.ben_account) && validator.isLength(this.ben_account, {min: 10, max: 14}) && validator.isAlphanumeric(this.ben_account);
-      if(!this.validation.amount) {
+      this.validation.amount = validator.isFloat(this.amount, {
+        min: 1.0,
+        max: 100000.0,
+      });
+      this.validation.ben_account =
+        !validator.isEmpty(this.ben_account) &&
+        validator.isLength(this.ben_account, { min: 10, max: 14 }) &&
+        validator.isAlphanumeric(this.ben_account);
+      if (!this.validation.amount) {
         return "Pleae enter valid amount to transfer.";
       }
-      if(!this.validation.ben_account) {
+      if (!this.validation.ben_account) {
         return "Pleae enter valid beneficiary account number.";
       }
     },
@@ -116,40 +134,41 @@ export default {
     async transfer() {
       try {
         const errorMessage = this.validateForm();
-        if(errorMessage) {
+        if (errorMessage) {
           this.error(errorMessage);
           return;
         }
 
         this.loadderOn();
         const userId = this.loggedInUserId();
-        const response = await api.post('/vcp.java/servlet/MobileAccountDetails', {
-          "email": userId,
-          "same_bank": "Y",
-          "bene_account": this.ben_account,
-          "amount": this.amount
+        const response = await api.post("/vcp.java/servlet/MobileTrasnaction", {
+          email: userId,
+          same_bank: "Y",
+          bene_account: this.ben_account,
+          amount: this.amount,
         });
 
-        if(response?.data) {
-          this.success("Transaction succeed.")
-            this.openConfirmationModal = false;
-            this.loadderOff();
-          this.$router.push('Home');
+        if (response?.data) {
+          this.success("Transaction succeed.");
+          this.openConfirmationModal = false;
+          this.loadderOff();
+          this.$router.push("Home");
         } else {
-          this.error("Transaction failed. Please try again or contact to admin.")
+          this.error(
+            "Transaction failed. Please try again or contact to admin."
+          );
           this.clearUserData();
           this.loadderOff();
-          this.$router.push('login');
+          this.$router.push("login");
         }
       } catch (error) {
-        this.error("Transaction failed. Please try again or contact to admin.")
+        this.error("Transaction failed. Please try again or contact to admin.");
         this.clearUserData();
-        this.$router.push('login');
+        this.$router.push("login");
       }
       this.loadderOff();
     },
   },
-  
 };
 </script>
 

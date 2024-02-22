@@ -1,5 +1,5 @@
 <template>
-  <ion-page color="primary">
+  <ion-page>
     <ion-loading class="custom-loading" :isOpen="showLoader"> </ion-loading>
 
     <ion-header :translucent="true">
@@ -7,38 +7,78 @@
         <ion-buttons slot="start">
           <ion-menu-button color="primary"></ion-menu-button>
         </ion-buttons>
-        <ion-title>In Progress</ion-title>
+        <ion-title>Add beneficiary</ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content :fullscreen="true">
-      <!-- <ion-content :fullscreen="true">
       <div class="container">
-        <ion-grid class="header-col">
-          <ion-row>
-            <ion-col>ACCOUNT</ion-col>
-            <ion-col>ACCOUNT TYPE</ion-col>
-            <ion-col>BALANCE</ion-col>
-          </ion-row>
-        </ion-grid>
+        <ion-list>
+          <ion-item lines="none">
+            <ion-input
+              v-model="ben_account"
+              labelPlacement="floating"
+              value="00.00"
+              :class="{
+                'ion-invalid': !validation.ben_account,
+                'ion-touched': !validation.ben_account,
+              }"
+              error-text="Invalid beneficiary account"
+              @input="validateForm"
+            >
+              <div slot="label">
+                Beneficiary Account Number
+                <ion-text color="danger">(Required)</ion-text>
+              </div>
+            </ion-input>
+          </ion-item>
 
-        <ion-grid v-if="transactions.length" class="data-col">
-          <ion-row v-for="(transaction, index) in transactions" :key="index">
-            <ion-col>{{ transaction.ACCOUNT }}</ion-col>
-            <ion-col class="colname">{{ transaction.TYPE_NAME }}</ion-col>
-            <ion-col>{{ transaction.BALANCE }}</ion-col>
-          </ion-row>
-        </ion-grid>
+          <ion-item lines="none">
+            <ion-input
+              v-model="ifsc_code"
+              labelPlacement="floating"
+              value="00.00"
+              :class="{
+                'ion-invalid': !validation.ifsc_code,
+                'ion-touched': !validation.ifsc_code,
+              }"
+              error-text="Invalid IFSC Number"
+              @input="validateForm"
+            >
+              <div slot="label">
+                IFSC Number <ion-text color="danger">(Required)</ion-text>
+              </div>
+            </ion-input>
+          </ion-item>
 
-        <ion-list v-else>
-          <ion-item>
-            <ion-label>
-              <h3>No transactions were made earlier.</h3>
-            </ion-label>
+          <ion-item lines="none">
+            <ion-input
+              v-model="bank_name"
+              labelPlacement="floating"
+              value="00.00"
+              :class="{
+                'ion-invalid': !validation.bank_name,
+                'ion-touched': !validation.bank_name,
+              }"
+              error-text="Invalid Bank Name."
+              @input="validateForm"
+            >
+              <div slot="label">
+                Bank Name <ion-text color="danger">(Required)</ion-text>
+              </div>
+            </ion-input>
           </ion-item>
         </ion-list>
-      </div> -->
+      </div>
     </ion-content>
+
+    <ion-footer>
+      <ion-toolbar>
+        <ion-button @click="addbene" expand="full" shape="round"
+          >Add</ion-button
+        >
+      </ion-toolbar>
+    </ion-footer>
   </ion-page>
 </template>
 
@@ -50,7 +90,15 @@ export default {
   watch: {},
   data() {
     return {
-      transactions: [],
+      userId: "",
+      ben_account: "",
+      ifsc_code: "",
+      bank_name: "",
+      validation: {
+        ben_account: true,
+        ifsc_code: true,
+        bank_name: true,
+      },
     };
   },
   computed: {
@@ -59,52 +107,68 @@ export default {
     },
   },
   mounted() {
-    // this.fetchTransactions();
+    this.userId = this.loggedInUserId();
   },
   methods: {
-    // validateForm() {
-    //   this.validation.email = !validator.isEmpty(this.email);
-    //   this.validation.passward = !validator.isEmpty(this.password);
-    //   if (!this.validation.email) {
-    //     return "Pleae enter valid email";
-    //   }
-    //   if (!this.validation.passward) {
-    //     return "Pleae enter valid password";
-    //   }
-    // },
-    // async fetchTransactions() {
-    //   try {
-    //     this.loadderOn();
-    //     const userId = this.loggedInUserId();
-    //     const response = await api.post("/vcp.java/servlet/MobileStatement", {
-    //       email: userId,
-    //       type: "C",
-    //     });
-    //     // console.log(JSON.stringify(response?.data));
-    //     // console.log("Response:", response.data);
-    //     if (response.data && response.data.statement) {
-    //       // Parse the JSON string into an array of objects
-    //       const statementArray = JSON.parse(response.data.statement);
-    //       if (Array.isArray(statementArray)) {
-    //         this.transactions = statementArray;
-    //       } else {
-    //         console.error("Invalid statement format:", response.data.statement);
-    //       }
-    //     } else {
-    //       console.log("No transactions found."); // Log if no transactions found
-    //     }
-    //   } catch (error) {
-    //     this.error("Something went wrong while fetching transaction details.");
-    //     this.clearUserData();
-    //     this.$router.push("login");
-    //   }
-    //   this.loadderOff();
-    // },
+    validateForm() {
+      this.validation.ben_account =
+        !validator.isEmpty(this.ben_account) &&
+        validator.isLength(this.ben_account, { min: 10, max: 14 }) &&
+        validator.isAlphanumeric(this.ben_account);
+      this.validation.ifsc_code =
+        !validator.isEmpty(this.ifsc_code) &&
+        validator.isLength(this.ifsc_code, { min: 4, max: 10 });
+      this.validation.bank_name =
+        !validator.isEmpty(this.bank_name) &&
+        validator.isLength(this.bank_name, { min: 4, max: 30 });
+
+      if (!this.validation.ben_account) {
+        return "Pleae enter valid beneficiary account number.";
+      }
+      if (!this.validation.ifsc_code) {
+        return "Pleae enter valid IFSC code.";
+      }
+      if (!this.validation.bank_name) {
+        return "Pleae enter valid bank name.";
+      }
+    },
+    async addbene() {
+      try {
+        const errorMessage = this.validateForm();
+        if (errorMessage) {
+          this.error(errorMessage);
+          return;
+        }
+
+        this.loadderOn();
+        const userId = this.loggedInUserId();
+        const response = await api.post("/vcp.java/servlet/AddBeneficiary", {
+          email: userId,
+          bene_account: this.ben_account,
+          bene_ifsc: this.ifsc_code,
+          bene_bankname: this.bank_name,
+        });
+
+        if (response?.data?.message == "Success") {
+          this.success("Beneficiary added successfully.");
+          this.$router.push("Home");
+        } else {
+          this.error("failed. Please try again or contact to admin.");
+          this.clearUserData();
+          this.$router.push("login");
+        }
+      } catch (error) {
+        this.error("failed. Please try again or contact to admin.");
+        this.clearUserData();
+        this.$router.push("login");
+      }
+      this.loadderOff();
+    },
   },
 };
 </script>
 
-<!-- <style scoped>
+<style scoped>
 #container strong {
   font-size: 20px;
   line-height: 26px;
@@ -120,20 +184,4 @@ export default {
 #container a {
   text-decoration: none;
 }
-.header-col {
-  font-weight: bold;
-  text-align: center;
-}
-ion-title {
-  color: #7c89e3;
-  font-size: 25px;
-}
-.data-col {
-  font-size: 12px;
-  text-align: center;
-}
-.colname {
-  font-size: 12px;
-  text-align: left;
-}
-</style> -->
+</style>

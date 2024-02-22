@@ -50,6 +50,8 @@ import {
   IonCardTitle,
   IonModal,
   IonImg,
+  IonSelect,
+  IonSelectOption,
 } from "@ionic/vue";
 
 const app = createApp(App).use(IonicVue).use(router);
@@ -78,6 +80,8 @@ app.component("ion-card-content", IonCardContent);
 app.component("ion-card-title", IonCardTitle);
 app.component("ion-modal", IonModal);
 app.component("ion-img", IonImg);
+app.component("ion-select", IonSelect);
+app.component("ion-select-option", IonSelectOption);
 
 app.mixin(mixin);
 

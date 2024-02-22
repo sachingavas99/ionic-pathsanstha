@@ -33,53 +33,38 @@
           </ion-item>
 
           <ion-item lines="none">
-            <ion-input
-              v-model="ben_account"
-              labelPlacement="floating"
-              value="00.00"
-              :class="{
-                'ion-invalid': !validation.ben_account,
-                'ion-touched': !validation.ben_account,
-              }"
-              error-text="Invalid beneficiary account"
-              @input="validateForm"
+            <ion-select
+              v-model="selectedBeneficiary"
+              label="Beneficiary Account Number"
+              label-placement="floating"
+              fill="outline"
+              @ionChange="updateIFSCCode(selectedBeneficiary)"
             >
-              <div slot="label">
-                Beneficiary Account Number
-                <ion-text color="danger">(Required)</ion-text>
-              </div>
-            </ion-input>
+              <ion-select-option
+                v-for="beneacc in beneficiaries"
+                :value="beneacc.ACCOUNT_CODE"
+                >{{ beneacc.ACCOUNT_CODE }}</ion-select-option
+              >
+            </ion-select>
           </ion-item>
-
           <ion-item lines="none">
             <ion-input
               v-model="ifsc_code"
               labelPlacement="floating"
               value="00.00"
-              :class="{
-                'ion-invalid': !validation.ifsc_code,
-                'ion-touched': !validation.ifsc_code,
-              }"
-              error-text="Invalid IFSC Number"
-              @input="validateForm"
+              :disabled="true"
             >
               <div slot="label">
                 IFSC Number <ion-text color="danger">(Required)</ion-text>
               </div>
             </ion-input>
           </ion-item>
-
           <ion-item lines="none">
             <ion-input
               v-model="bank_name"
               labelPlacement="floating"
               value="00.00"
-              :class="{
-                'ion-invalid': !validation.bank_name,
-                'ion-touched': !validation.bank_name,
-              }"
-              error-text="Invalid Bank Name."
-              @input="validateForm"
+              :disabled="true"
             >
               <div slot="label">
                 Bank Name <ion-text color="danger">(Required)</ion-text>
@@ -123,12 +108,15 @@ export default {
       ben_account: "",
       ifsc_code: "",
       bank_name: "",
+      currentFood: "",
       openConfirmationModal: false,
+      selectedBeneficiary: false,
+      beneficiaries: [],
       validation: {
         amount: true,
-        ben_account: true,
-        ifsc_code: true,
-        bank_name: true,
+        ben_account: false,
+        ifsc_code: false,
+        bank_name: false,
       },
     };
   },
@@ -139,6 +127,7 @@ export default {
   },
   mounted() {
     this.userId = this.loggedInUserId();
+    this.fetchBeneficiary();
   },
   methods: {
     openUserConfirmationPopup() {
@@ -181,6 +170,35 @@ export default {
     onUserConfirm() {
       this.transfer();
     },
+    // updateIFSCCode(selectedBeneficiary) {
+    //   if (selectedBeneficiary) {
+    //     this.ifsc_code = selectedBeneficiary.IFSC_CODE;
+    //     this.bank_name = selectedBeneficiary.BENIFESARY;
+    //     // this.ben_account = selectedBeneficiary.ACCOUNT_CODE;
+    //     console.log("ifsc---------" + this.ifsc_code);
+    //     console.log(this.ben_account);
+    //   } else {
+    //     this.ifsc_code = "";
+    //     this.bank_name = "";
+    //     // this.ben_account = "";
+    //   }
+    // },
+    updateIFSCCode(selectedAccountCode) {
+      const selectedBeneficiary = this.beneficiaries.find(
+        (beneacc) => beneacc.ACCOUNT_CODE === selectedAccountCode
+      );
+      if (selectedBeneficiary) {
+        this.ifsc_code = selectedBeneficiary.IFSC_CODE;
+        this.bank_name = selectedBeneficiary.BENIFESARY;
+        this.ben_account = selectedAccountCode;
+        // console.log("ifsc---------" + this.ifsc_code);
+        // console.log(this.ben_account);
+      } else {
+        this.ifsc_code = "";
+        this.bank_name = "";
+        this.ben_account = "";
+      }
+    },
     async transfer() {
       try {
         const errorMessage = this.validateForm();
@@ -191,18 +209,15 @@ export default {
 
         this.loadderOn();
         const userId = this.loggedInUserId();
-        const response = await api.post(
-          "/vcp.java/servlet/MobileAccountDetails",
-          {
-            email: userId,
-            same_bank: "N",
-            bene_account: this.ben_account,
-            amount: this.amount,
-            rtgs_neft: "R",
-            bene_ifsc: this.ifsc_code,
-            bene_bankname: this.bank_name,
-          }
-        );
+        const response = await api.post("/vcp.java/servlet/MobileTrasnaction", {
+          email: userId,
+          same_bank: "N",
+          bene_account: this.ben_account,
+          amount: this.amount,
+          rtgs_neft: "R",
+          bene_ifsc: this.ifsc_code,
+          bene_bankname: this.bank_name,
+        });
 
         if (response?.data) {
           this.success("Transaction succeed.");
@@ -217,6 +232,38 @@ export default {
         }
       } catch (error) {
         this.error("Transaction failed. Please try again or contact to admin.");
+        this.clearUserData();
+        this.$router.push("login");
+      }
+      this.loadderOff();
+    },
+
+    async fetchBeneficiary() {
+      try {
+        this.loadderOn();
+        const userId = this.loggedInUserId();
+        const response = await api.post("/vcp.java/servlet/ShowBeneficiary", {
+          email: userId,
+          type: "B",
+        });
+
+        // console.log(JSON.stringify(response?.data));
+        // console.log("Response:", response.data);
+
+        if (response.data && response.data.statement) {
+          // Parse the JSON string into an array of objects
+          const BeneArray = JSON.parse(response.data.statement);
+
+          if (Array.isArray(BeneArray)) {
+            this.beneficiaries = BeneArray;
+          } else {
+            console.error("Invalid format:", response.data.statement);
+          }
+        } else {
+          console.log("No transactions found.");
+        }
+      } catch (error) {
+        this.error("Something went wrong while fetching transaction details.");
         this.clearUserData();
         this.$router.push("login");
       }
