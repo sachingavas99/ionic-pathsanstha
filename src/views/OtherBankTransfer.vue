@@ -253,7 +253,6 @@ export default {
         if (response.data && response.data.statement) {
           // Parse the JSON string into an array of objects
           const BeneArray = JSON.parse(response.data.statement);
-
           if (Array.isArray(BeneArray)) {
             this.beneficiaries = BeneArray;
           } else {

@@ -131,7 +131,7 @@ const appPages = [
   },
   {
     title: "Add beneficiery",
-    url: "/folder/Archived",
+    url: "/AddBeneficiary",
     iosIcon: personAddOutline,
     mdIcon: personAddSharp,
   },
