@@ -132,11 +132,14 @@ export default {
 
         this.loadderOn();
         const userId = this.loggedInUserId();
-        const response = await api.post("/vcp.java/servlet/ChangePassword", {
-          email: userId,
-          passward: this.password,
-          newpassword: this.newpassward,
-        });
+        const response = await api.post(
+          "/varad_path.java/servlet/ChangePassword",
+          {
+            email: userId,
+            passward: this.password,
+            newpassword: this.newpassward,
+          }
+        );
 
         if (response?.data?.message == "Success") {
           this.success("Passward change succeed.");

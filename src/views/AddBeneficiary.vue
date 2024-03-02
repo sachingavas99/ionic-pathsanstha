@@ -142,12 +142,15 @@ export default {
 
         this.loadderOn();
         const userId = this.loggedInUserId();
-        const response = await api.post("/vcp.java/servlet/AddBeneficiary", {
-          email: userId,
-          bene_account: this.ben_account,
-          bene_ifsc: this.ifsc_code,
-          bene_bankname: this.bank_name,
-        });
+        const response = await api.post(
+          "/varad_path.java/servlet/AddBeneficiary",
+          {
+            email: userId,
+            bene_account: this.ben_account,
+            bene_ifsc: this.ifsc_code,
+            bene_bankname: this.bank_name,
+          }
+        );
 
         if (response?.data?.message == "Success") {
           this.success("Beneficiary added successfully.");

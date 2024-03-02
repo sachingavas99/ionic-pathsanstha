@@ -100,11 +100,14 @@ export default {
           return;
         }
         this.loadderOn();
-        const response = await api.login("/vcp.java/servlet/MobileLogin", {
-          email: this.email,
-          passward: this.password,
-        });
-        // alert(response);
+        const response = await api.login(
+          "/varad_path.java/servlet/MobileLogin",
+          {
+            email: this.email,
+            passward: this.password,
+          }
+        );
+        alert(JSON.stringify(response));
         // alert(JSON.stringify(response));
         if (response?.data?.message == "Success") {
           localStorage.setItem("token", this.email);
@@ -116,6 +119,7 @@ export default {
           this.error("Wrong userid or password is entered.");
         }
       } catch (error) {
+        alert("error");
         alert(JSON.stringify(error));
         alert(error);
         console.error(error);

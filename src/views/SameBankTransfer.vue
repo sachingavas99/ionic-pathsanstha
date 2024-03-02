@@ -141,12 +141,15 @@ export default {
 
         this.loadderOn();
         const userId = this.loggedInUserId();
-        const response = await api.post("/vcp.java/servlet/MobileTrasnaction", {
-          email: userId,
-          same_bank: "Y",
-          bene_account: this.ben_account,
-          amount: this.amount,
-        });
+        const response = await api.post(
+          "/varad_path.java/servlet/MobileTrasnaction",
+          {
+            email: userId,
+            same_bank: "Y",
+            bene_account: this.ben_account,
+            amount: this.amount,
+          }
+        );
 
         if (response?.data) {
           this.success("Transaction succeed.");

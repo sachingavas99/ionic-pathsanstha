@@ -21,7 +21,7 @@
             <ion-card color="medium" class="head" router-link="/UserDetails">
               <ion-card-header>
                 <ion-card-title class="headtitle">
-                  Malkapur Urban Co-Op Credit Society Ltd.
+                  Varad Credit Nidhi Ltd.
                 </ion-card-title>
               </ion-card-header>
             </ion-card>

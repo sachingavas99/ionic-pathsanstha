@@ -75,10 +75,13 @@ export default {
       try {
         this.loadderOn();
         const userId = this.loggedInUserId();
-        const response = await api.post("/vcp.java/servlet/MobileStatement", {
-          email: userId,
-          type: "C",
-        });
+        const response = await api.post(
+          "/varad_path.java/servlet/MobileStatement",
+          {
+            email: userId,
+            type: "C",
+          }
+        );
         // console.log(JSON.stringify(response?.data));
 
         // console.log("Response:", response.data);

@@ -18,11 +18,12 @@ axios.defaults.headers.common = {
   "X-Requested-With": "XMLHttpRequest",
   Accept: "application/json",
 };
-const baseUrl = "https://59.97.238.239:8443";
-
+const baseUrl = "https://localhost:8443";
 // const baseUrl = "https://203.192.231.218:8443";
-// const apiUrlCallUrl = "http://localhost:3000";
-const apiUrlCallUrl = "https://ionic-server-proxy.vercel.app/";
+
+// const apiUrlCallUrl = "https://ionic-server-proxy.vercel.app/";
+// const apiUrlCallUrl = "https://varadpathmobile.com";
+const apiUrlCallUrl = "https://61.0.40.6:3000/";
 const api = {
   post: (url, prm) => {
     const token = localStorage.getItem("token");
@@ -31,6 +32,7 @@ const api = {
     // return axios.post(baseUrl + url, params);
   },
   login: (url, params) => {
+    alert("apiUrlCallUrl" + apiUrlCallUrl);
     return axios.post(apiUrlCallUrl, { url: `${baseUrl}${url}`, params });
     // return axios.post(baseUrl + url, params);
     // const options = {

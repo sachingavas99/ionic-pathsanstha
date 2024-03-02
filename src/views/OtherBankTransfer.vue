@@ -209,15 +209,18 @@ export default {
 
         this.loadderOn();
         const userId = this.loggedInUserId();
-        const response = await api.post("/vcp.java/servlet/MobileTrasnaction", {
-          email: userId,
-          same_bank: "N",
-          bene_account: this.ben_account,
-          amount: this.amount,
-          rtgs_neft: "R",
-          bene_ifsc: this.ifsc_code,
-          bene_bankname: this.bank_name,
-        });
+        const response = await api.post(
+          "/varad_path.java/servlet/MobileTrasnaction",
+          {
+            email: userId,
+            same_bank: "N",
+            bene_account: this.ben_account,
+            amount: this.amount,
+            rtgs_neft: "R",
+            bene_ifsc: this.ifsc_code,
+            bene_bankname: this.bank_name,
+          }
+        );
 
         if (response?.data) {
           this.success("Transaction succeed.");
@@ -242,10 +245,13 @@ export default {
       try {
         this.loadderOn();
         const userId = this.loggedInUserId();
-        const response = await api.post("/vcp.java/servlet/ShowBeneficiary", {
-          email: userId,
-          type: "B",
-        });
+        const response = await api.post(
+          "/varad_path.java/servlet/ShowBeneficiary",
+          {
+            email: userId,
+            type: "B",
+          }
+        );
 
         // console.log(JSON.stringify(response?.data));
         // console.log("Response:", response.data);

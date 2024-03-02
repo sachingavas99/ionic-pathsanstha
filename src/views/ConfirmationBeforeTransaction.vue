@@ -1,66 +1,66 @@
 <template>
-    <ion-modal ref="modal" :can-dismiss="true" :isOpen="true">
-       <ion-header :translucent="true">
-          <ion-toolbar>
-            <ion-buttons slot="start">
-              <ion-menu-button color="primary"></ion-menu-button>
-            </ion-buttons>
-            <ion-title>User Confirmation</ion-title>
-          </ion-toolbar>
-        </ion-header>
+  <ion-modal ref="modal" :can-dismiss="true" :isOpen="true">
+    <ion-header :translucent="true">
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-menu-button color="primary"></ion-menu-button>
+        </ion-buttons>
+        <ion-title>User Confirmation</ion-title>
+      </ion-toolbar>
+    </ion-header>
 
-      <ion-content :fullscreen="true">
-        <div class="container">
-          <ion-list>
-            <ion-item lines="none">
-              <ion-input
-                v-model="email"
-                labelPlacement="floating"
-                value="hi@ionic.io"
-                :disabled="true"
-                :class="{
-                  'ion-invalid': !validation.email,
-                  'ion-touched': !validation.email,
-                }"
-                error-text="Invalid email"
-                @input="validateForm"
-              >
-                <div slot="label">
-                  Email <ion-text  color="danger">(Required)</ion-text>
-                </div>
-              </ion-input>
-            </ion-item>
+    <ion-content :fullscreen="true">
+      <div class="container">
+        <ion-list>
+          <ion-item lines="none">
+            <ion-input
+              v-model="email"
+              labelPlacement="floating"
+              value="hi@ionic.io"
+              :disabled="true"
+              :class="{
+                'ion-invalid': !validation.email,
+                'ion-touched': !validation.email,
+              }"
+              error-text="Invalid email"
+              @input="validateForm"
+            >
+              <div slot="label">
+                Email <ion-text color="danger">(Required)</ion-text>
+              </div>
+            </ion-input>
+          </ion-item>
 
-            <ion-item lines="none">
-              <ion-input
-                v-model="password"
-                labelPlacement="floating"
-                value="hi@ionic.io"
-                type="password"
-                :class="{
-                  'ion-invalid': !validation.passward,
-                  'ion-touched': !validation.passward,
-                }"
-                error-text="Invalid password"
-                @input="validateForm"
-              >
-                <div slot="label">
-                  password <ion-text color="danger">(Required)</ion-text>
-                </div>
-              </ion-input>
-            </ion-item>
-          </ion-list>
-        </div>
-      </ion-content>
+          <ion-item lines="none">
+            <ion-input
+              v-model="password"
+              labelPlacement="floating"
+              value="hi@ionic.io"
+              type="password"
+              :class="{
+                'ion-invalid': !validation.passward,
+                'ion-touched': !validation.passward,
+              }"
+              error-text="Invalid password"
+              @input="validateForm"
+            >
+              <div slot="label">
+                password <ion-text color="danger">(Required)</ion-text>
+              </div>
+            </ion-input>
+          </ion-item>
+        </ion-list>
+      </div>
+    </ion-content>
 
-      <ion-footer>
-        <ion-toolbar>
-          <ion-button @click="login" expand="full" shape="round"
-            >Confirm</ion-button
-          >
-        </ion-toolbar>
-      </ion-footer>
-    </ion-modal>
+    <ion-footer>
+      <ion-toolbar>
+        <ion-button @click="login" expand="full" shape="round"
+          >Confirm</ion-button
+        >
+      </ion-toolbar>
+    </ion-footer>
+  </ion-modal>
 </template>
 
 <script>
@@ -98,10 +98,13 @@ export default {
           return;
         }
         this.loadderOn();
-        const response = await api.login("/vcp.java/servlet/MobileLogin", {
-          email: this.email,
-          passward: this.password,
-        });
+        const response = await api.login(
+          "/varad_path.java/servlet/MobileLogin",
+          {
+            email: this.email,
+            passward: this.password,
+          }
+        );
         // alert(response);
         // alert(JSON.stringify(response));
         if (response?.data?.message == "Success") {
@@ -109,8 +112,8 @@ export default {
           // localStorage.setItem("userDetails", JSON.stringify(response.data));
           // this.setUserDetails({email: this.email, data: response.data});
           this.success("User confirmation succeed.");
-           this.loadderOff();
-          this.$emit('userConfirmation', { userConfirmation: true });
+          this.loadderOff();
+          this.$emit("userConfirmation", { userConfirmation: true });
           // this.$router.push("Home");
         } else {
           this.loadderOff();
@@ -118,7 +121,9 @@ export default {
         }
       } catch (error) {
         console.error(error);
-        this.error("Something went wrong while user confirmation. Contat to admin.");
+        this.error(
+          "Something went wrong while user confirmation. Contat to admin."
+        );
       }
       this.loadderOff();
     },
@@ -129,7 +134,7 @@ export default {
     },
   },
   mounted() {
-      this.email = this.loggedInUserId();
+    this.email = this.loggedInUserId();
   },
   created() {
     // this.success("Logged in");
