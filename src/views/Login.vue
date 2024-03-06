@@ -107,7 +107,7 @@ export default {
             passward: this.password,
           }
         );
-        alert(JSON.stringify(response));
+        // alert(JSON.stringify(response));
         // alert(JSON.stringify(response));
         if (response?.data?.message == "Success") {
           localStorage.setItem("token", this.email);
