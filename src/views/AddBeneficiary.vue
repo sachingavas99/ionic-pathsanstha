@@ -113,7 +113,7 @@ export default {
     validateForm() {
       this.validation.ben_account =
         !validator.isEmpty(this.ben_account) &&
-        validator.isLength(this.ben_account, { min: 10, max: 14 }) &&
+        // validator.isLength(this.ben_account, { min: 10, max: 14 }) &&
         validator.isAlphanumeric(this.ben_account);
       this.validation.ifsc_code =
         !validator.isEmpty(this.ifsc_code) &&
