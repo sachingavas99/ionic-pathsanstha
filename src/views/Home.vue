@@ -117,6 +117,24 @@
             </ion-card>
           </ion-col>
           <ion-col size="6">
+            <ion-card color="danger" router-link="/RemoveBeneficiary">
+              <ion-card-header>
+                <ion-card-title>Remove Beneficiary</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <div class="card-content-wrapper">
+                  <ion-icon
+                    slot="start"
+                    :ios="closeCircleSharp"
+                    :md="closeCircleOutline"
+                  ></ion-icon>
+                </div>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
             <ion-card color="light" router-link="/Statement">
               <ion-card-header>
                 <ion-card-title>Statement</ion-card-title>
@@ -127,24 +145,6 @@
                     slot="start"
                     :ios="menuSharp"
                     :md="menuOutline"
-                  ></ion-icon>
-                </div>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col size="6">
-            <ion-card color="light" router-link="/QRCollection">
-              <ion-card-header>
-                <ion-card-title>QR Collection</ion-card-title>
-              </ion-card-header>
-              <ion-card-content>
-                <div class="card-content-wrapper">
-                  <ion-icon
-                    slot="start"
-                    :ios="qrCodeSharp"
-                    :md="qrCodeOutline"
                   ></ion-icon>
                 </div>
               </ion-card-content>
@@ -161,6 +161,25 @@
                     slot="start"
                     :ios="bookmarkSharp"
                     :md="bookmarkOutline"
+                  ></ion-icon>
+                </div>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="6">
+            <ion-card color="light" router-link="/QRCollection">
+              <ion-card-header>
+                <ion-card-title>QR Collection</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <div class="card-content-wrapper">
+                  <ion-icon
+                    slot="start"
+                    :ios="qrCodeSharp"
+                    :md="qrCodeOutline"
                   ></ion-icon>
                 </div>
               </ion-card-content>
@@ -188,6 +207,8 @@ import {
   qrCodeSharp,
   bookmarkOutline,
   bookmarkSharp,
+  closeCircleOutline,
+  closeCircleSharp,
 } from "ionicons/icons";
 export default {
   watch: {},
@@ -207,6 +228,8 @@ export default {
       qrCodeSharp,
       bookmarkOutline,
       bookmarkSharp,
+      closeCircleOutline,
+      closeCircleSharp,
     };
   },
   methods: {},

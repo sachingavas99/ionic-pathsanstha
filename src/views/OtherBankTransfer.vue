@@ -145,11 +145,11 @@ export default {
       });
       this.validation.ben_account =
         !validator.isEmpty(this.ben_account) &&
-        validator.isLength(this.ben_account, { min: 10, max: 14 }) &&
+        // validator.isLength(this.ben_account, { min: 10, max: 14 }) &&
         validator.isAlphanumeric(this.ben_account);
       this.validation.ifsc_code =
         !validator.isEmpty(this.ifsc_code) &&
-        validator.isLength(this.ifsc_code, { min: 4, max: 10 });
+        validator.isLength(this.ifsc_code, { min: 4, max: 11 });
       this.validation.bank_name =
         !validator.isEmpty(this.bank_name) &&
         validator.isLength(this.bank_name, { min: 4, max: 30 });

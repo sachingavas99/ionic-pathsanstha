@@ -37,6 +37,7 @@ const myMixin = {
       localStorage.setItem("token", "");
       localStorage.setItem("userDetails", "");
       this.userDetails = {};
+      location.reload();
     },
     logoutMixin() {
       this.clearUserData();
