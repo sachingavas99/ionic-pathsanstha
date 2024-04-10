@@ -61,6 +61,18 @@
           </ion-item>
           <ion-item lines="none">
             <ion-input
+              v-model="bene_name"
+              labelPlacement="floating"
+              value="00.00"
+              :disabled="true"
+            >
+              <div slot="label">
+                Beneficiary Name <ion-text color="danger">(Required)</ion-text>
+              </div>
+            </ion-input>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-input
               v-model="bank_name"
               labelPlacement="floating"
               value="00.00"
@@ -107,6 +119,7 @@ export default {
       amount: "",
       ben_account: "",
       ifsc_code: "",
+      bene_name: "",
       bank_name: "",
       currentFood: "",
       openConfirmationModal: false,
@@ -115,6 +128,7 @@ export default {
       validation: {
         amount: true,
         ben_account: false,
+        bene_name: false,
         ifsc_code: false,
         bank_name: false,
       },
@@ -153,6 +167,9 @@ export default {
       this.validation.bank_name =
         !validator.isEmpty(this.bank_name) &&
         validator.isLength(this.bank_name, { min: 4, max: 30 });
+      this.validation.bene_name =
+        !validator.isEmpty(this.bene_name) &&
+        validator.isLength(this.bene_name, { min: 4, max: 30 });
 
       if (!this.validation.amount) {
         return "Pleae enter valid amount to transfer.";
@@ -165,6 +182,9 @@ export default {
       }
       if (!this.validation.bank_name) {
         return "Pleae enter valid bank name.";
+      }
+      if (!this.validation.bene_name) {
+        return "Pleae enter valid beneficiary name.";
       }
     },
     onUserConfirm() {
@@ -189,13 +209,15 @@ export default {
       );
       if (selectedBeneficiary) {
         this.ifsc_code = selectedBeneficiary.IFSC_CODE;
-        this.bank_name = selectedBeneficiary.BENIFESARY;
+        this.bene_name = selectedBeneficiary.BENIFESARY;
+        this.bank_name = selectedBeneficiary.BANK_NAME;
         this.ben_account = selectedAccountCode;
         // console.log("ifsc---------" + this.ifsc_code);
         // console.log(this.ben_account);
       } else {
         this.ifsc_code = "";
         this.bank_name = "";
+        this.bene_name = "";
         this.ben_account = "";
       }
     },
@@ -217,6 +239,7 @@ export default {
           rtgs_neft: "R",
           bene_ifsc: this.ifsc_code,
           bene_bankname: this.bank_name,
+          bene_name: this.bene_name,
         });
 
         if (response?.data) {

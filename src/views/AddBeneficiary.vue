@@ -72,6 +72,24 @@
 
           <ion-item lines="none">
             <ion-input
+              v-model="bene_name"
+              labelPlacement="floating"
+              value="00.00"
+              :class="{
+                'ion-invalid': !validation.bene_name,
+                'ion-touched': !validation.bene_name,
+              }"
+              error-text="Invalid Beneficiary Name."
+              @input="validateForm"
+            >
+              <div slot="label">
+                Beneficiary Name <ion-text color="danger">(Required)</ion-text>
+              </div>
+            </ion-input>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-input
               v-model="bank_name"
               labelPlacement="floating"
               value="00.00"
@@ -113,11 +131,13 @@ export default {
       ben_account: "",
       con_ben_account: "",
       ifsc_code: "",
+      bene_name: "",
       bank_name: "",
       validation: {
         ben_account: true,
         con_ben_account: true,
         ifsc_code: true,
+        bene_name: true,
         bank_name: true,
       },
     };
@@ -146,6 +166,9 @@ export default {
       this.validation.bank_name =
         !validator.isEmpty(this.bank_name) &&
         validator.isLength(this.bank_name, { min: 4, max: 30 });
+      this.validation.bene_name =
+        !validator.isEmpty(this.bene_name) &&
+        validator.isLength(this.bene_name, { min: 4, max: 30 });
 
       if (!this.validation.ben_account) {
         return "Pleae enter valid beneficiary account number.";
@@ -164,6 +187,9 @@ export default {
       if (!this.validation.bank_name) {
         return "Pleae enter valid bank name.";
       }
+      if (!this.validation.bene_name) {
+        return "Pleae enter valid beneficiary name.";
+      }
     },
     async addbene() {
       try {
@@ -179,6 +205,7 @@ export default {
           email: userId,
           bene_account: this.ben_account,
           bene_ifsc: this.ifsc_code,
+          bene_name: this.bene_name,
           bene_bankname: this.bank_name,
           type: "A",
         });
