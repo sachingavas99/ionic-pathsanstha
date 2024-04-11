@@ -55,13 +55,67 @@
         <img src="../../assets/icon.png" />
       </div>
     </ion-content>
-    <ion-footer>
+    <!-- <ion-footer>
       <ion-toolbar>
         <ion-button @click="login" expand="full" shape="round"
           >Login</ion-button
         >
       </ion-toolbar>
+    </ion-footer> -->
+    <ion-footer>
+      <ion-toolbar>
+        <ion-button
+          v-if="!userConfirm"
+          @click="fetchConfirmation"
+          expand="full"
+          shape="round"
+          >Login</ion-button
+        >
+      </ion-toolbar>
     </ion-footer>
+    <!-- Custom confirmation dialog -->
+    <!-- <div v-if="!userConfirm"> -->
+    <div v-if="showDialog" class="confirmation-dialog">
+      <div class="dialog-content" style="overflow-y: auto; max-height: 700px">
+        <p>
+          I have read and understood the Terms and Conditions applicable to
+          Mobile Bankaing Application Facility provided by Malkapur Urban
+          Co-Operative Credit Society Ltd., Malkapur. I confirm to the Society
+          that I am the duly Authorized User of the Account. I will be solely
+          responsible for protecting any password given by Malkapur Urban
+          Co-Operative Credit Society Ltd., Malkapur for the use of the
+          facility. Malkapur Urban Co-Operative Credit Society Ltd., Malkapur
+          will not be liable for any unauthorized use of any password(s) given
+          to me as an Authorized User or for any fraudulent, duplicate or
+          erroneous instructions given by use of the password. If I have reason
+          to believe that my Mobile Phone Number is / has been allotted to
+          another person and / or there has been an unauthorized transaction in
+          the Account and / or my Mobile Phone Number is lost, the Authorized
+          User shall immediately inform Malkapur Urban Co-Operative Credit
+          Society Ltd., Malkapur under acknowledgement about the same. Malkapur
+          Urban Co-Operative Credit Society Ltd., Malkapur shall not be
+          responsible for any failure to utilize the Facility due to me not
+          being within the geographical range within which the Facility is
+          offered, Malkapur Urban Co-Operative Credit Society Ltd., Malkapur
+          makes no warranty or representation of any kind in relation to the
+          system and the network or their function or performance or for any
+          loss or damage whenever and howsoever suffered or incurred by me or by
+          any person resulting from or in connection with the Facility. Malkapur
+          Urban Co-Operative Credit Society Ltd., Malkapur shall under no
+          circumstance be held liable if the Facility is not available or there
+          is any delay in the carrying out of the instructions for any reasons
+          whatsoever including but not limited to natural calamities, legal
+          restraints, faults in the telecommunication network or network
+          failure, or any other reason beyond the control of Malkapur Urban
+          Co-Operative Credit Society Ltd., Malkapur.
+        </p>
+        <div class="button-container">
+          <ion-button @click="hideDialog" color="danger">Disagree</ion-button>
+          <ion-button @click="login()" color="success">Agree</ion-button>
+        </div>
+      </div>
+    </div>
+    <!-- </div> -->
   </ion-page>
 </template>
 
@@ -75,6 +129,8 @@ export default {
     return {
       email: "",
       password: "",
+      showDialog: false,
+      userConfirm: false,
       validation: {
         email: true,
         passward: true,
@@ -92,6 +148,10 @@ export default {
         return "Pleae enter valid password";
       }
     },
+    hideDialog() {
+      this.showDialog = false;
+    },
+
     async login() {
       try {
         const error = this.validateForm();
@@ -122,6 +182,39 @@ export default {
         this.error("Something went wrong while login. Contat to admin.");
       }
       this.loadderOff();
+      this.hideDialog();
+    },
+
+    async fetchConfirmation() {
+      try {
+        const error = this.validateForm();
+        if (error) {
+          this.error(error);
+          return;
+        }
+        this.loadderOn();
+        const response = await api.login(
+          "/vcp.java/servlet/MobileUserConfirm",
+          {
+            email: this.email,
+          }
+        );
+        // console.log(JSON.stringify(response?.data));
+        // console.log("Response:", response.data);
+
+        if (response?.data?.message == "Success") {
+          // this.$emit("userConfirm", { userConfirm: true });
+          this.login();
+        } else {
+          // this.$emit("userConfirm", { userConfirm: false });
+          this.showDialog = true;
+        }
+      } catch (error) {
+        this.error("Something went wrong while fetching transaction details.");
+        this.clearUserData();
+        this.$router.push("login");
+      }
+      this.loadderOff();
     },
   },
   computed: {
@@ -136,6 +229,38 @@ export default {
 </script>
 
 <style scoped>
+.confirmation-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.dialog-content {
+  background-color: #b6d9c9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-weight: bolder;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.button-container ion-button {
+  flex: 1;
+  margin: 0 5px;
+}
+
 #container strong {
   font-size: 20px;
   line-height: 26px;

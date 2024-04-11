@@ -83,6 +83,20 @@
               </div>
             </ion-input>
           </ion-item>
+          <ion-item lines="none">
+            <ion-input
+              v-model="reason"
+              labelPlacement="floating"
+              value="00.00"
+              placeholder="Reason for transfer (optional)"
+              @input="validateForm"
+            >
+              <div slot="label">
+                Reason
+                <ion-text color="danger"></ion-text>
+              </div>
+            </ion-input>
+          </ion-item>
         </ion-list>
       </div>
       <template v-if="openConfirmationModal">
@@ -121,6 +135,7 @@ export default {
       ifsc_code: "",
       bene_name: "",
       bank_name: "",
+      reason: "",
       currentFood: "",
       openConfirmationModal: false,
       selectedBeneficiary: false,
@@ -131,6 +146,7 @@ export default {
         bene_name: false,
         ifsc_code: false,
         bank_name: false,
+        reason: false,
       },
     };
   },
@@ -240,6 +256,7 @@ export default {
           bene_ifsc: this.ifsc_code,
           bene_bankname: this.bank_name,
           bene_name: this.bene_name,
+          reason: this.reason,
         });
 
         if (response?.data) {

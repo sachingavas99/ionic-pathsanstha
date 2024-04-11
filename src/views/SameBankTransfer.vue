@@ -50,6 +50,21 @@
               </div>
             </ion-input>
           </ion-item>
+
+          <ion-item lines="none">
+            <ion-input
+              v-model="reason"
+              labelPlacement="floating"
+              value="00.00"
+              placeholder="Reason for transfer (optional)"
+              @input="validateForm"
+            >
+              <div slot="label">
+                Reason
+                <ion-text color="danger"></ion-text>
+              </div>
+            </ion-input>
+          </ion-item>
         </ion-list>
       </div>
 
@@ -86,10 +101,12 @@ export default {
       userId: "",
       amount: "",
       ben_account: "",
+      reason: "",
       openConfirmationModal: false,
       validation: {
         amount: true,
         ben_account: true,
+        reason: false,
       },
     };
   },
@@ -146,6 +163,7 @@ export default {
           same_bank: "Y",
           bene_account: this.ben_account,
           amount: this.amount,
+          reason: this.reason,
         });
 
         if (response?.data) {

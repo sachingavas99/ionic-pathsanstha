@@ -43,6 +43,18 @@
           </ion-item>
           <ion-item lines="none">
             <ion-input
+              v-model="bene_name"
+              labelPlacement="floating"
+              value="00.00"
+              :disabled="true"
+            >
+              <div slot="label">
+                Beneficiary Name <ion-text color="danger">(Required)</ion-text>
+              </div>
+            </ion-input>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-input
               v-model="bank_name"
               labelPlacement="floating"
               value="00.00"
@@ -79,14 +91,16 @@ export default {
       ben_account: "",
       con_ben_account: "",
       ifsc_code: "",
+      bene_name: "",
       bank_name: "",
       selectedBeneficiary: false,
       beneficiaries: [],
       validation: {
-        ben_account: true,
-        con_ben_account: true,
-        ifsc_code: true,
-        bank_name: true,
+        ben_account: false,
+        con_ben_account: false,
+        ifsc_code: false,
+        bene_name: false,
+        bank_name: false,
       },
     };
   },
@@ -129,13 +143,15 @@ export default {
       );
       if (selectedBeneficiary) {
         this.ifsc_code = selectedBeneficiary.IFSC_CODE;
-        this.bank_name = selectedBeneficiary.BENIFESARY;
+        this.bene_name = selectedBeneficiary.BENIFESARY;
+        this.bank_name = selectedBeneficiary.BANK_NAME;
         this.ben_account = selectedAccountCode;
         // console.log("ifsc---------" + this.ifsc_code);
         // console.log(this.ben_account);
       } else {
         this.ifsc_code = "";
         this.bank_name = "";
+        this.bene_name = "";
         this.ben_account = "";
       }
     },
