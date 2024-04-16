@@ -7,31 +7,13 @@
         <ion-buttons slot="start">
           <ion-menu-button color="primary"></ion-menu-button>
         </ion-buttons>
-        <ion-title>Transfer to Other bank</ion-title>
+        <ion-title>Remove beneficiary</ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content :fullscreen="true">
       <div class="container">
         <ion-list>
-          <ion-item lines="none">
-            <ion-input
-              v-model="amount"
-              labelPlacement="floating"
-              value=""
-              :class="{
-                'ion-invalid': !validation.amount,
-                'ion-touched': !validation.amount,
-              }"
-              error-text="Invalid Amount"
-              @input="validateForm"
-            >
-              <div slot="label">
-                Rs <ion-text color="danger">(Required)</ion-text>
-              </div>
-            </ion-input>
-          </ion-item>
-
           <ion-item lines="none">
             <ion-select
               v-model="selectedBeneficiary"
@@ -83,36 +65,14 @@
               </div>
             </ion-input>
           </ion-item>
-          <ion-item lines="none">
-            <ion-input
-              v-model="reason"
-              labelPlacement="floating"
-              value="00.00"
-              placeholder="Reason for transfer (optional)"
-              @input="validateForm"
-            >
-              <div slot="label">
-                Reason
-                <ion-text color="danger"></ion-text>
-              </div>
-            </ion-input>
-          </ion-item>
         </ion-list>
       </div>
-      <template v-if="openConfirmationModal">
-        <ConfirmationBeforeTransaction
-          @userConfirmation="onUserConfirm"
-        ></ConfirmationBeforeTransaction>
-      </template>
     </ion-content>
 
     <ion-footer>
       <ion-toolbar>
-        <ion-button
-          @click="openUserConfirmationPopup"
-          expand="full"
-          shape="round"
-          >Transfer</ion-button
+        <ion-button @click="removebene" expand="full" shape="round"
+          >Remove</ion-button
         >
       </ion-toolbar>
     </ion-footer>
@@ -122,31 +82,25 @@
 <script>
 import api from "@/api";
 import validator from "validator";
-import ConfirmationBeforeTransaction from "./ConfirmationBeforeTransaction.vue";
 
 export default {
   watch: {},
-  components: { ConfirmationBeforeTransaction },
   data() {
     return {
       userId: "",
-      amount: "",
       ben_account: "",
+      con_ben_account: "",
       ifsc_code: "",
       bene_name: "",
       bank_name: "",
-      reason: "",
-      currentFood: "",
-      openConfirmationModal: false,
       selectedBeneficiary: false,
       beneficiaries: [],
       validation: {
-        amount: true,
         ben_account: false,
-        bene_name: false,
+        con_ben_account: false,
         ifsc_code: false,
+        bene_name: false,
         bank_name: false,
-        reason: false,
       },
     };
   },
@@ -160,19 +114,7 @@ export default {
     this.fetchBeneficiary();
   },
   methods: {
-    openUserConfirmationPopup() {
-      const errorMessage = this.validateForm();
-      if (errorMessage) {
-        this.error(errorMessage);
-        return;
-      }
-      this.openConfirmationModal = true;
-    },
     validateForm() {
-      this.validation.amount = validator.isFloat(this.amount, {
-        min: 1.0,
-        max: 100000.0,
-      });
       this.validation.ben_account =
         !validator.isEmpty(this.ben_account) &&
         // validator.isLength(this.ben_account, { min: 10, max: 14 }) &&
@@ -183,13 +125,7 @@ export default {
       this.validation.bank_name =
         !validator.isEmpty(this.bank_name) &&
         validator.isLength(this.bank_name, { min: 4, max: 30 });
-      this.validation.bene_name =
-        !validator.isEmpty(this.bene_name) &&
-        validator.isLength(this.bene_name, { min: 4, max: 30 });
 
-      if (!this.validation.amount) {
-        return "Pleae enter valid amount to transfer.";
-      }
       if (!this.validation.ben_account) {
         return "Pleae enter valid beneficiary account number.";
       }
@@ -199,26 +135,8 @@ export default {
       if (!this.validation.bank_name) {
         return "Pleae enter valid bank name.";
       }
-      if (!this.validation.bene_name) {
-        return "Pleae enter valid beneficiary name.";
-      }
     },
-    onUserConfirm() {
-      this.transfer();
-    },
-    // updateIFSCCode(selectedBeneficiary) {
-    //   if (selectedBeneficiary) {
-    //     this.ifsc_code = selectedBeneficiary.IFSC_CODE;
-    //     this.bank_name = selectedBeneficiary.BENIFESARY;
-    //     // this.ben_account = selectedBeneficiary.ACCOUNT_CODE;
-    //     console.log("ifsc---------" + this.ifsc_code);
-    //     console.log(this.ben_account);
-    //   } else {
-    //     this.ifsc_code = "";
-    //     this.bank_name = "";
-    //     // this.ben_account = "";
-    //   }
-    // },
+
     updateIFSCCode(selectedAccountCode) {
       const selectedBeneficiary = this.beneficiaries.find(
         (beneacc) => beneacc.ACCOUNT_CODE === selectedAccountCode
@@ -237,7 +155,8 @@ export default {
         this.ben_account = "";
       }
     },
-    async transfer() {
+
+    async removebene() {
       try {
         const errorMessage = this.validateForm();
         if (errorMessage) {
@@ -248,33 +167,26 @@ export default {
         this.loadderOn();
         const userId = this.loggedInUserId();
         const response = await api.post(
-          "/varad_path.java/servlet/MobileTrasnaction",
+          "/varad_path.java/servlet/AddBeneficiary",
           {
             email: userId,
-            same_bank: "N",
             bene_account: this.ben_account,
-            amount: this.amount,
-            rtgs_neft: "R",
             bene_ifsc: this.ifsc_code,
             bene_bankname: this.bank_name,
-            bene_name: this.bene_name,
-            reason: this.reason,
+            type: "R",
           }
         );
 
-        if (response?.data) {
-          this.success("Transaction succeed.");
-          this.openConfirmationModal = false;
+        if (response?.data?.message == "Success") {
+          this.success("Beneficiary Remove Successfully.");
           this.$router.push("Home");
         } else {
-          this.error(
-            "Transaction failed. Please try again or contact to admin."
-          );
+          this.error("failed. Please try again or contact to admin.");
           this.clearUserData();
           this.$router.push("login");
         }
       } catch (error) {
-        this.error("Transaction failed. Please try again or contact to admin.");
+        this.error("failed. Please try again or contact to admin.");
         this.clearUserData();
         this.$router.push("login");
       }

@@ -100,6 +100,8 @@ import {
   powerSharp,
   homeOutline,
   homeSharp,
+  closeCircleOutline,
+  closeCircleSharp,
 } from "ionicons/icons";
 
 const selectedIndex = ref(0);
@@ -134,6 +136,12 @@ const appPages = [
     url: "/AddBeneficiary",
     iosIcon: personAddOutline,
     mdIcon: personAddSharp,
+  },
+  {
+    title: "Remove beneficiery",
+    url: "/RemoveBeneficiary",
+    iosIcon: closeCircleOutline,
+    mdIcon: closeCircleSharp,
   },
   {
     title: "Account Statement",

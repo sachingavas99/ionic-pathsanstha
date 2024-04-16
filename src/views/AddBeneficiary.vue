@@ -35,6 +35,25 @@
 
           <ion-item lines="none">
             <ion-input
+              v-model="con_ben_account"
+              labelPlacement="floating"
+              value="00.00"
+              :class="{
+                'ion-invalid': !validation.con_ben_account,
+                'ion-touched': !validation.con_ben_account,
+              }"
+              error-text="Invalid beneficiary account"
+              @input="validateForm"
+            >
+              <div slot="label">
+                Confirm Beneficiary Account Number
+                <ion-text color="danger">(Required)</ion-text>
+              </div>
+            </ion-input>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-input
               v-model="ifsc_code"
               labelPlacement="floating"
               value="00.00"
@@ -47,6 +66,24 @@
             >
               <div slot="label">
                 IFSC Number <ion-text color="danger">(Required)</ion-text>
+              </div>
+            </ion-input>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-input
+              v-model="bene_name"
+              labelPlacement="floating"
+              value="00.00"
+              :class="{
+                'ion-invalid': !validation.bene_name,
+                'ion-touched': !validation.bene_name,
+              }"
+              error-text="Invalid Beneficiary Name."
+              @input="validateForm"
+            >
+              <div slot="label">
+                Beneficiary Name <ion-text color="danger">(Required)</ion-text>
               </div>
             </ion-input>
           </ion-item>
@@ -92,11 +129,15 @@ export default {
     return {
       userId: "",
       ben_account: "",
+      con_ben_account: "",
       ifsc_code: "",
+      bene_name: "",
       bank_name: "",
       validation: {
         ben_account: true,
+        con_ben_account: true,
         ifsc_code: true,
+        bene_name: true,
         bank_name: true,
       },
     };
@@ -113,23 +154,41 @@ export default {
     validateForm() {
       this.validation.ben_account =
         !validator.isEmpty(this.ben_account) &&
-        validator.isLength(this.ben_account, { min: 10, max: 14 }) &&
+        // validator.isLength(this.ben_account, { min: 10, max: 14 }) &&
         validator.isAlphanumeric(this.ben_account);
+      this.validation.con_ben_account =
+        !validator.isEmpty(this.con_ben_account) &&
+        // validator.isLength(this.ben_account, { min: 10, max: 14 }) &&
+        validator.isAlphanumeric(this.con_ben_account);
       this.validation.ifsc_code =
         !validator.isEmpty(this.ifsc_code) &&
-        validator.isLength(this.ifsc_code, { min: 4, max: 10 });
+        validator.isLength(this.ifsc_code, { min: 4, max: 11 });
       this.validation.bank_name =
         !validator.isEmpty(this.bank_name) &&
         validator.isLength(this.bank_name, { min: 4, max: 30 });
+      this.validation.bene_name =
+        !validator.isEmpty(this.bene_name) &&
+        validator.isLength(this.bene_name, { min: 4, max: 30 });
 
       if (!this.validation.ben_account) {
         return "Pleae enter valid beneficiary account number.";
+      }
+      if (!this.validation.con_ben_account) {
+        return "Pleae enter valid confirm beneficiary account number.";
+      }
+
+      if (this.ben_account != this.con_ben_account) {
+        // alert("missmatch" + this.con_ben_account);
+        return "beneficiary account number missmatch.";
       }
       if (!this.validation.ifsc_code) {
         return "Pleae enter valid IFSC code.";
       }
       if (!this.validation.bank_name) {
         return "Pleae enter valid bank name.";
+      }
+      if (!this.validation.bene_name) {
+        return "Pleae enter valid beneficiary name.";
       }
     },
     async addbene() {
@@ -148,7 +207,9 @@ export default {
             email: userId,
             bene_account: this.ben_account,
             bene_ifsc: this.ifsc_code,
+            bene_name: this.bene_name,
             bene_bankname: this.bank_name,
+            type: "A",
           }
         );
 
@@ -172,6 +233,10 @@ export default {
 </script>
 
 <style scoped>
+ion-input {
+  text-transform: uppercase;
+}
+
 #container strong {
   font-size: 20px;
   line-height: 26px;

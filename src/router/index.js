@@ -10,6 +10,7 @@ import ChangePassword from "@/views/ChangePassword.vue";
 import AddBeneficiary from "@/views/AddBeneficiary.vue";
 import QRCollection from "@/views/QRCollection.vue";
 import FastTag from "@/views/FastTag.vue";
+import RemoveBeneficiary from "@/views/RemoveBeneficiary.vue";
 
 const routes = [
   {
@@ -70,6 +71,11 @@ const routes = [
     name: "FastTag",
     path: "/FastTag",
     component: FastTag,
+  },
+  {
+    name: "RemoveBeneficiary",
+    path: "/RemoveBeneficiary",
+    component: RemoveBeneficiary,
   },
 ];
 
