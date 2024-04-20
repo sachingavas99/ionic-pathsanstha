@@ -61,14 +61,19 @@
               :class="{
                 'ion-invalid': !validation.newpassward,
                 'ion-touched': !validation.newpassward,
+                newpassward,
               }"
-              error-text="Invalid password"
+              error-text="New password must be 8 characters."
               @input="validateForm"
             >
               <div slot="label">
                 New Password <ion-text color="danger">(Required)</ion-text>
               </div>
             </ion-input>
+            <ion-note
+              >(please use capitals(A,B...),special character(@,#....) and
+              no(1,2...) for make it strong)</ion-note
+            >
           </ion-item>
         </ion-list>
       </div>
@@ -111,7 +116,14 @@ export default {
     validateForm() {
       this.validation.email = !validator.isEmpty(this.email);
       this.validation.passward = !validator.isEmpty(this.password);
-      this.validation.newpassward = !validator.isEmpty(this.newpassward);
+      this.validation.newpassward =
+        !validator.isEmpty(this.newpassward) &&
+        validator.isLength(this.newpassward, { min: 8, max: 8 });
+
+      const passwordRegex =
+        /^(?=.*[0-9]{4})(?=.*[A-Z])(?=.*[!@#$%^&*()-_=+[\]{}|\\;:'",.<>/?]).{8}$/;
+      this.validation.newpassward = passwordRegex.test(this.newpassward);
+
       if (!this.validation.email) {
         return "Pleae enter valid email";
       }
@@ -119,7 +131,7 @@ export default {
         return "Pleae enter valid password";
       }
       if (!this.validation.newpassward) {
-        return "Pleae enter valid new password";
+        return "New password must be at least 8 characters and include 1 special character, 1 capital letter, and 4 numbers";
       }
     },
     async changepassword() {
@@ -145,9 +157,9 @@ export default {
           this.$router.push("login");
         } else {
           this.error("New password and old password must be different.");
-          this.clearUserData();
-          this.loadderOff();
-          this.$router.push("login");
+          // this.clearUserData();
+          // this.loadderOff();
+          // this.$router.push("login");
         }
       } catch (error) {
         this.error("Please try again or contact to admin.");

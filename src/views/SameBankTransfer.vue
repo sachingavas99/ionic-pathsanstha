@@ -166,18 +166,18 @@ export default {
           reason: this.reason,
         });
 
-        if (response?.data) {
+        if (response?.data?.message == "Success") {
           this.success("Transaction succeed.");
           this.openConfirmationModal = false;
           this.loadderOff();
           this.$router.push("Home");
         } else {
           this.error(
-            "Transaction failed. Please try again or contact to admin."
+            "Transaction failed. Please try again or Check Account Code."
           );
-          this.clearUserData();
+          // this.clearUserData();
           this.loadderOff();
-          this.$router.push("login");
+          // this.$router.push("login");
         }
       } catch (error) {
         this.error("Transaction failed. Please try again or contact to admin.");

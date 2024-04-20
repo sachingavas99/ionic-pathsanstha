@@ -19,9 +19,18 @@
         <ion-row>
           <ion-col size="12">
             <ion-card color="medium" class="head" router-link="/UserDetails">
-              <ion-card-header>
-                <ion-card-title class="headtitle">
-                  Malkapur Urban Co-Op Credit Society Ltd.
+              <ion-card-header class="header">
+                <ion-card-title>
+                  <p
+                    style="
+                      color: yellow;
+                      font-weight: bold;
+                      font-size: 15px;
+                      margin-top: 0;
+                    "
+                  >
+                    Malkapur Urban Co-Op Credit Society Ltd.
+                  </p>
                 </ion-card-title>
               </ion-card-header>
             </ion-card>
@@ -135,7 +144,7 @@
         </ion-row>
         <ion-row>
           <ion-col size="6">
-            <ion-card color="light" router-link="/Statement">
+            <ion-card class="statementcolor" router-link="/Statement">
               <ion-card-header>
                 <ion-card-title>Statement</ion-card-title>
               </ion-card-header>
@@ -170,7 +179,7 @@
 
         <ion-row>
           <ion-col size="6">
-            <ion-card color="light" router-link="/QRCollection">
+            <ion-card color="dark" router-link="/QRCollection">
               <ion-card-header>
                 <ion-card-title>QR Collection</ion-card-title>
               </ion-card-header>
@@ -267,9 +276,13 @@ ion-text {
   height: 50px;
   border-radius: 20px;
 }
-.headtitle {
-  font-weight: bolder;
+
+.header {
+  background-color: darkblue;
   text-align: center;
+}
+.statementcolor {
+  background-color: wheat;
 }
 /* .card {
   border-radius: 20px;
