@@ -48,6 +48,11 @@
               </div>
             </ion-input>
           </ion-item>
+          <div class="forgot">
+            <ion-label lines="none" @click="forgotPassword" color="danger"
+              >Forgot Password?</ion-label
+            >
+          </div>
         </ion-list>
       </div>
       <br />
@@ -62,6 +67,19 @@
         >
       </ion-toolbar>
     </ion-footer> -->
+    <ion-footer>
+      <!-- <ion-toolbar> -->
+      <!-- <ion-item
+          @click="fetchConfirmation"
+          lines="none"
+          expand="full"
+          shape="round"
+          >Forgot Password</ion-item
+        > -->
+
+      <!-- </ion-toolbar> -->
+    </ion-footer>
+
     <ion-footer>
       <ion-toolbar>
         <ion-button
@@ -79,7 +97,7 @@
       <div class="dialog-content" style="overflow-y: auto; max-height: 700px">
         <p>
           I have read and understood the Terms and Conditions applicable to
-          Mobile Bankaing Application Facility provided by Malkapur Urban
+          Mobile Banking Application Facility provided by Malkapur Urban
           Co-Operative Credit Society Ltd., Malkapur. I confirm to the Society
           that I am the duly Authorized User of the Account. I will be solely
           responsible for protecting any password given by Malkapur Urban
@@ -148,6 +166,14 @@ export default {
         return "Pleae enter valid password";
       }
     },
+
+    validateEmail() {
+      this.validation.email = !validator.isEmpty(this.email);
+      if (!this.validation.email) {
+        return "Pleae enter valid email";
+      }
+    },
+
     hideDialog() {
       this.showDialog = false;
     },
@@ -216,6 +242,37 @@ export default {
       }
       this.loadderOff();
     },
+
+    async forgotPassword() {
+      try {
+        const error = this.validateEmail();
+        if (error) {
+          this.error(error);
+          return;
+        }
+        this.loadderOn();
+        const response = await api.login(
+          "/vcp.java/servlet/SendForgotPassward",
+          {
+            email: this.email,
+          }
+        );
+        if (response?.data?.message == "Success") {
+          // this.$emit("userConfirm", { userConfirm: true });
+          // this.clearUserData();
+          this.success("Password Send to your registered E-mail Id.");
+          this.$router.push("login");
+        } else {
+          // this.$emit("userConfirm", { userConfirm: false });
+          this.showDialog = true;
+        }
+      } catch (error) {
+        this.error("Something went wrong while fetching transaction details.");
+        this.clearUserData();
+        this.$router.push("login");
+      }
+      this.loadderOff();
+    },
   },
   computed: {
     isFormValid() {
@@ -229,6 +286,11 @@ export default {
 </script>
 
 <style scoped>
+.forgot {
+  text-align: right;
+  font-size: small;
+}
+
 .confirmation-dialog {
   position: fixed;
   top: 0;

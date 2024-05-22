@@ -63,7 +63,7 @@ const myMixin = {
     async error(message) {
       const toast = await toastController.create({
         message: message,
-        duration: 1500,
+        duration: 4000,
         position: "top",
         color: "danger",
       });

@@ -171,6 +171,12 @@ export default {
           this.openConfirmationModal = false;
           this.loadderOff();
           this.$router.push("Home");
+        } else if (
+          response?.data?.message == "Failuer" &&
+          response?.data?.status == "05"
+        ) {
+          this.error("Transaction failed. Insuffucient Account Balance.");
+          this.loadderOff();
         } else {
           this.error(
             "Transaction failed. Please try again or Check Account Code."

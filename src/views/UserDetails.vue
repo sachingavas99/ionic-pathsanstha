@@ -17,54 +17,53 @@
           <ion-item>
             <ion-label>
               <h3>Name</h3>
-              <p>{{userDetails.name}}</p>
+              <p>{{ userDetails.name }}</p>
             </ion-label>
           </ion-item>
 
           <ion-item>
             <ion-label>
               <h3>balance</h3>
-              <p>Rs {{userDetails.balance}}</p>
+              <p>Rs {{ userDetails.balance }}</p>
             </ion-label>
           </ion-item>
 
           <ion-item>
             <ion-label>
               <h3>Email</h3>
-              <p>{{userDetails.email_id || "-"}}</p>
+              <p>{{ userDetails.email_id || "-" }}</p>
             </ion-label>
           </ion-item>
 
           <ion-item>
             <ion-label>
               <h3>Mobile No</h3>
-              <p>{{userDetails.phonemobile || "-"}}</p>
+              <p>{{ userDetails.phonemobile || "-" }}</p>
             </ion-label>
           </ion-item>
 
           <ion-item>
             <ion-label>
               <h3>Address</h3>
-              <p v-if="userDetails.address1">{{userDetails.address1}}</p>
-              <p v-if="userDetails.address2">{{userDetails.address2}}</p>
-              <p v-if="userDetails.address3">{{userDetails.address3}}</p>
+              <p v-if="userDetails.address1">{{ userDetails.address1 }}</p>
+              <p v-if="userDetails.address2">{{ userDetails.address2 }}</p>
+              <p v-if="userDetails.address3">{{ userDetails.address3 }}</p>
             </ion-label>
           </ion-item>
 
           <ion-item>
             <ion-label>
               <h3>City</h3>
-              <p>{{userDetails.city || "-"}}</p>
+              <p>{{ userDetails.city || "-" }}</p>
             </ion-label>
           </ion-item>
 
           <ion-item>
             <ion-label>
-              <h3>Mobile No</h3>
-              <p>{{userDetails.zip || "-"}}</p>
+              <h3>Pin Code</h3>
+              <p>{{ userDetails.zip || "-" }}</p>
             </ion-label>
           </ion-item>
-
         </ion-list>
       </div>
     </ion-content>
@@ -81,15 +80,14 @@
 
 <script>
 import api from "@/api";
-import validator from 'validator';
+import validator from "validator";
 
 export default {
-  props: {
-  },
+  props: {},
   watch: {},
   data() {
     return {
-      userDetails: {}
+      userDetails: {},
     };
   },
   computed: {
@@ -104,10 +102,10 @@ export default {
     validateForm() {
       this.validation.email = !validator.isEmpty(this.email);
       this.validation.passward = !validator.isEmpty(this.password);
-      if(!this.validation.email) {
+      if (!this.validation.email) {
         return "Pleae enter valid email";
       }
-      if(!this.validation.passward) {
+      if (!this.validation.passward) {
         return "Pleae enter valid password";
       }
     },
@@ -115,30 +113,36 @@ export default {
       try {
         this.loadderOn();
         const userId = this.loggedInUserId();
-        const response = await api.post('/vcp.java/servlet/MobileAccountDetails', {
-          "email": userId
-        });
+        const response = await api.post(
+          "/vcp.java/servlet/MobileAccountDetails",
+          {
+            email: userId,
+          }
+        );
 
-        if(response?.data?.name) {
+        if (response?.data?.name) {
           this.userDetails = response.data;
           this.setUserDetails({
             email: this.loggedInUserId(),
-            data: JSON.parse( JSON.stringify( response.data)),
+            data: JSON.parse(JSON.stringify(response.data)),
           });
         } else {
-          this.error("Something went wrong while fetching user details. Please login again.")
+          this.error(
+            "Something went wrong while fetching user details. Please login again."
+          );
           this.clearUserData();
-          this.$router.push('login');
+          this.$router.push("login");
         }
       } catch (error) {
-        this.error("Something went wrong while fetching user details. Please login again.")
+        this.error(
+          "Something went wrong while fetching user details. Please login again."
+        );
         this.clearUserData();
-        this.$router.push('login');
+        this.$router.push("login");
       }
       this.loadderOff();
     },
   },
-  
 };
 </script>
 

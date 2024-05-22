@@ -84,8 +84,8 @@ export default {
           type: "A",
         });
 
-        // console.log(JSON.stringify(response?.data));
-        // console.log("Response:", response.data);
+        console.log(JSON.stringify(response?.data));
+        console.log("Response:", response.data);
 
         if (response.data && response.data.statement) {
           // Parse the JSON string into an array of objects

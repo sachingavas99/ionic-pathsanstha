@@ -18,7 +18,8 @@ axios.defaults.headers.common = {
   "X-Requested-With": "XMLHttpRequest",
   Accept: "application/json",
 };
-const baseUrl = "https://59.97.238.239:8443";
+// const baseUrl = "https://59.97.238.239:8443";
+const baseUrl = "https://malkapururbansoc.in:8443";
 
 // const baseUrl = "https://203.192.231.218:8443";
 // const apiUrlCallUrl = "http://localhost:3000";
