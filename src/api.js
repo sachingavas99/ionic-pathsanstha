@@ -19,20 +19,43 @@ axios.defaults.headers.common = {
   Accept: "application/json",
 };
 // const baseUrl = "https://59.97.238.239:8443";
-const baseUrl = "https://malkapururbansoc.in:8443";
+// const baseUrl = "https://103.93.97.207:8443";
+// const baseUrl = "malkapururbansoc.in:8443";
 
 // const baseUrl = "https://203.192.231.218:8443";
 // const apiUrlCallUrl = "http://localhost:3000";
 const apiUrlCallUrl = "https://ionic-server-proxy.vercel.app/";
+
+const baseUrl1 = "https://103.93.97.207:8443";
+const baseUrl2 = "https://malkapururbansoc.in:8443";
+
+const checkRequest = async (url, params, attempt = 1) => {
+  const baseUrl = attempt === 1 ? baseUrl1 : baseUrl2;
+  try {
+    return await axios.post(apiUrlCallUrl, { url: `${baseUrl}${url}`, params });
+  } catch (error) {
+    if (attempt === 1) {
+      // console.warn(
+      //   `Primary base URL failed: ${error.message}. Trying secondary URL...`
+      // );
+      return checkRequest(url, params, 2);
+    } else {
+      throw error; // Rethrow the error if the secondary URL also fails
+    }
+  }
+};
+
 const api = {
   post: (url, prm) => {
     const token = localStorage.getItem("token");
     let params = { ...prm, ...{ email: token } };
-    return axios.post(apiUrlCallUrl, { url: `${baseUrl}${url}`, params });
+    // return axios.post(apiUrlCallUrl, { url: `${baseUrl}${url}`, params });
+    return checkRequest(url, params);
     // return axios.post(baseUrl + url, params);
   },
   login: (url, params) => {
-    return axios.post(apiUrlCallUrl, { url: `${baseUrl}${url}`, params });
+    // return axios.post(apiUrlCallUrl, { url: `${baseUrl}${url}`, params });
+    return checkRequest(url, params);
     // return axios.post(baseUrl + url, params);
     // const options = {
     //   url: baseUrl + url,

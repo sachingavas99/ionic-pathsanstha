@@ -35,15 +35,15 @@
           <ion-item lines="none">
             <ion-select
               v-model="selectedBeneficiary"
-              label="Beneficiary Account Number"
+              label="Beneficiary Account Name"
               label-placement="floating"
               fill="outline"
               @ionChange="updateIFSCCode(selectedBeneficiary)"
             >
               <ion-select-option
                 v-for="beneacc in beneficiaries"
-                :value="beneacc.ACCOUNT_CODE"
-                >{{ beneacc.ACCOUNT_CODE }}</ion-select-option
+                :value="beneacc.BENIFESARY"
+                >{{ beneacc.BENIFESARY }}</ion-select-option
               >
             </ion-select>
           </ion-item>
@@ -61,13 +61,14 @@
           </ion-item>
           <ion-item lines="none">
             <ion-input
-              v-model="bene_name"
+              v-model="ben_account"
               labelPlacement="floating"
               value="00.00"
               :disabled="true"
             >
               <div slot="label">
-                Beneficiary Name <ion-text color="danger">(Required)</ion-text>
+                Beneficiary Account No.
+                <ion-text color="danger">(Required)</ion-text>
               </div>
             </ion-input>
           </ion-item>
@@ -221,13 +222,13 @@ export default {
     // },
     updateIFSCCode(selectedAccountCode) {
       const selectedBeneficiary = this.beneficiaries.find(
-        (beneacc) => beneacc.ACCOUNT_CODE === selectedAccountCode
+        (beneacc) => beneacc.BENIFESARY === selectedAccountCode
       );
       if (selectedBeneficiary) {
         this.ifsc_code = selectedBeneficiary.IFSC_CODE;
-        this.bene_name = selectedBeneficiary.BENIFESARY;
         this.bank_name = selectedBeneficiary.BANK_NAME;
-        this.ben_account = selectedAccountCode;
+        this.ben_account = selectedBeneficiary.ACCOUNT_CODE;
+        this.bene_name = selectedAccountCode;
         // console.log("ifsc---------" + this.ifsc_code);
         // console.log(this.ben_account);
       } else {
