@@ -42,11 +42,27 @@
                 'ion-touched': !validation.ben_account,
               }"
               error-text="Invalid beneficiary account"
-              @input="validateForm"
+              @input="handleInput"
             >
               <div slot="label">
                 Beneficiary Account Number
                 <ion-text color="danger">(Required)</ion-text>
+              </div>
+            </ion-input>
+          </ion-item>
+
+          <ion-item lines="none">
+            <!-- <ion-label> Name: {{ beneficiaryName }}</ion-label> -->
+            <ion-input
+              v-model="beneficiaryName"
+              labelPlacement="floating"
+              value="00.00"
+              placeholder="name"
+              :disabled="true"
+            >
+              <div slot="label">
+                Name
+                <ion-text color="danger"></ion-text>
               </div>
             </ion-input>
           </ion-item>
@@ -108,6 +124,8 @@ export default {
         ben_account: true,
         reason: false,
       },
+      beneficiaryName: "",
+      beneficiaries: [],
     };
   },
   computed: {
@@ -135,7 +153,7 @@ export default {
       });
       this.validation.ben_account =
         !validator.isEmpty(this.ben_account) &&
-        validator.isLength(this.ben_account, { min: 10, max: 14 }) &&
+        validator.isLength(this.ben_account, { min: 14, max: 14 }) &&
         validator.isAlphanumeric(this.ben_account);
       if (!this.validation.amount) {
         return "Pleae enter valid amount to transfer.";
@@ -144,6 +162,57 @@ export default {
         return "Pleae enter valid beneficiary account number.";
       }
     },
+
+    async fetchBeneficiaryName() {
+      if (this.validation.ben_account && this.ben_account) {
+        try {
+          this.loadderOn();
+          this.ben_account = this.ben_account.trim();
+          // console.log("this.ben_account====", this.ben_account);
+          const userId = this.loggedInUserId();
+          const response = await api.post("/vcp.java/servlet/ShowBeneficiary", {
+            email: userId,
+            bene_account: this.ben_account,
+            type: "S",
+          });
+          // console.log("Response:", response.data.statement);
+
+          if (response.data && response.data.statement) {
+            const BeneArray = JSON.parse(response.data.statement);
+            console.log("ResponseBeneArray:", BeneArray);
+            if (Array.isArray(BeneArray)) {
+              this.beneficiaries = BeneArray;
+              // console.log("=====", this.beneficiaries[0].BENIFESARY);
+              if (BeneArray.length > 0) {
+                this.beneficiaryName = this.beneficiaries[0].BENIFESARY;
+              } else {
+                this.beneficiaryName = "No Name found";
+              }
+              if (this.beneficiaryName == ".") {
+                this.beneficiaryName = "No Name found";
+              }
+            } else {
+              console.error("Invalid format:", response.data.statement);
+              this.beneficiaryName = "Invalid data format";
+            }
+          } else {
+            this.beneficiaryName = "Unable to fetch name.";
+          }
+        } catch (error) {
+          this.beneficiaryName = "Error fetching name. Please try again.";
+          console.error(error);
+        } finally {
+          this.loadderOff();
+        }
+      } else {
+        this.beneficiaryName = "";
+      }
+    },
+    handleInput() {
+      this.validateForm();
+      this.fetchBeneficiaryName();
+    },
+
     onUserConfirm() {
       this.openConfirmationModal = false;
       this.transfer();
@@ -164,6 +233,7 @@ export default {
           bene_account: this.ben_account,
           amount: this.amount,
           reason: this.reason,
+          bene_name: this.beneficiaryName,
         });
 
         if (response?.data?.message == "Success") {
