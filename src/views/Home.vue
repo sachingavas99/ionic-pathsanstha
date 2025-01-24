@@ -135,7 +135,7 @@
         </ion-row>
         <ion-row>
           <ion-col size="6">
-            <ion-card color="light" router-link="/Statement">
+            <ion-card class="statementcolor" router-link="/Statement">
               <ion-card-header>
                 <ion-card-title>Statement</ion-card-title>
               </ion-card-header>
@@ -185,6 +185,22 @@
               </ion-card-content>
             </ion-card>
           </ion-col>
+          <ion-col size="6">
+            <ion-card color="danger" router-link="/Logout">
+              <ion-card-header>
+                <ion-card-title>Logout</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <div class="card-content-wrapper">
+                  <ion-icon
+                    slot="start"
+                    :ios="powerSharp"
+                    :md="powerOutline"
+                  ></ion-icon>
+                </div>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
         </ion-row>
       </ion-grid>
     </ion-content>
@@ -192,6 +208,11 @@
 </template>
 
 <script>
+import { onMounted, onBeforeUnmount } from "vue";
+import { App as CapacitorApp } from "@capacitor/app";
+import { useRouter } from "vue-router";
+import myMixin from "@/mixin";
+
 import {
   mailOutline,
   mailSharp,
@@ -209,6 +230,8 @@ import {
   bookmarkSharp,
   closeCircleOutline,
   closeCircleSharp,
+  powerOutline,
+  powerSharp,
 } from "ionicons/icons";
 export default {
   watch: {},
@@ -230,11 +253,59 @@ export default {
       bookmarkSharp,
       closeCircleOutline,
       closeCircleSharp,
+      powerOutline,
+      powerSharp,
     };
   },
   methods: {},
   computed: {},
   created() {},
+  setup() {
+    const router = useRouter();
+
+    const handleBackButton = () => {
+      console.log("Back button pressed");
+      console.log("Current route name:", router.currentRoute.value.name);
+      if (router.currentRoute.value.name === "Home") {
+        console.log("Exiting app");
+        localStorage.removeItem("token"); // Clear user token
+        localStorage.setItem("token", "");
+        localStorage.setItem("userDetails", "");
+        CapacitorApp.exitApp(); // Exit the app
+      }
+      if (router.currentRoute.value.name === "Logout") {
+        console.log("Exiting app");
+        localStorage.removeItem("token"); // Clear user token
+        localStorage.setItem("token", "");
+        localStorage.setItem("userDetails", "");
+        CapacitorApp.exitApp(); // Exit the app
+      }
+    };
+
+    const handleAppStateChange = (state) => {
+      console.log("App state changed:", state);
+      if (state.isActive === false) {
+        console.log("App minimized");
+        localStorage.removeItem("token"); // Clear user token
+        localStorage.setItem("token", "");
+        localStorage.setItem("userDetails", "");
+        CapacitorApp.exitApp(); // Exit the app when minimized
+      }
+    };
+
+    onMounted(() => {
+      console.log("Adding back button listener");
+      CapacitorApp.addListener("backButton", handleBackButton);
+      CapacitorApp.addListener("appStateChange", handleAppStateChange);
+    });
+
+    onBeforeUnmount(() => {
+      console.log("Removing back button listener");
+      CapacitorApp.removeAllListeners();
+    });
+
+    return {};
+  },
 };
 </script>
 <style scoped>
@@ -270,6 +341,9 @@ ion-text {
 .headtitle {
   font-weight: bolder;
   text-align: center;
+}
+.statementcolor {
+  background-color: wheat;
 }
 /* .card {
   border-radius: 20px;

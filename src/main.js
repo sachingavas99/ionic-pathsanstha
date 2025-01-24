@@ -52,6 +52,7 @@ import {
   IonImg,
   IonSelect,
   IonSelectOption,
+  IonNote,
 } from "@ionic/vue";
 
 const app = createApp(App).use(IonicVue).use(router);
@@ -82,7 +83,7 @@ app.component("ion-modal", IonModal);
 app.component("ion-img", IonImg);
 app.component("ion-select", IonSelect);
 app.component("ion-select-option", IonSelectOption);
-
+app.component("ion-note", IonNote);
 app.mixin(mixin);
 
 router.isReady().then(() => {

@@ -77,12 +77,38 @@ const routes = [
     path: "/RemoveBeneficiary",
     component: RemoveBeneficiary,
   },
+  {
+    name: "Logout",
+    path: "/Logout",
+    component: Login,
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 });
+
+let logoutTimer = null;
+
+const resetLogoutTimer = () => {
+  if (logoutTimer) {
+    clearTimeout(logoutTimer);
+  }
+  logoutTimer = setTimeout(() => {
+    localStorage.removeItem("token");
+    // location.reload();
+    // this.clearUserData();
+    router.push({ name: "login" });
+  }, 600000); // 10 minute
+};
+
+const setupActivityListeners = () => {
+  window.addEventListener("mousemove", resetLogoutTimer);
+  window.addEventListener("keydown", resetLogoutTimer);
+  window.addEventListener("click", resetLogoutTimer);
+  window.addEventListener("scroll", resetLogoutTimer);
+};
 
 router.beforeEach((to, from) => {
   // ...
@@ -91,12 +117,36 @@ router.beforeEach((to, from) => {
 
   console.log(to);
   const userToken = localStorage.getItem("token");
+  // if (!userToken && to.name != "login") {
+  //   return { name: "login" };
+  // }
+  // if (userToken && to.name == "login") {
+  //   return { name: "userDetails" };
+  // }
   if (!userToken && to.name != "login") {
+    // localStorage.removeItem("token");
+    localStorage.setItem("token", "");
+    // location.reload();
     return { name: "login" };
   }
   if (userToken && to.name == "login") {
-    return { name: "userDetails" };
+    // return { name: "userDetails" };
+    return { name: "Home" };
+  }
+
+  // Redirect to login if the user navigates back from Home page
+  if (to.name === "login" && from.name === "Home") {
+    localStorage.removeItem("token"); // Clear user token
+    localStorage.setItem("token", "");
+    localStorage.setItem("userDetails", "");
+    return { name: "login" };
+  }
+
+  if (userToken) {
+    resetLogoutTimer();
   }
 });
+
+setupActivityListeners();
 
 export default router;

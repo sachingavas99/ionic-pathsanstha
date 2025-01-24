@@ -37,7 +37,7 @@
               </ion-item>
             </ion-menu-toggle>
 
-            <ion-menu-toggle :auto-hide="false">
+            <!-- <ion-menu-toggle :auto-hide="false">
               <ion-item
                 @click="logoutMixin"
                 router-direction="root"
@@ -55,7 +55,7 @@
                 ></ion-icon>
                 <ion-label color="danger">Logout</ion-label>
               </ion-item>
-            </ion-menu-toggle>
+            </ion-menu-toggle> -->
           </ion-list>
         </ion-content>
       </ion-menu>
@@ -96,8 +96,8 @@ import {
   menuSharp,
   apertureOutline,
   apertureSharp,
-  powerOutline,
-  powerSharp,
+  // powerOutline,
+  // powerSharp,
   homeOutline,
   homeSharp,
   closeCircleOutline,
