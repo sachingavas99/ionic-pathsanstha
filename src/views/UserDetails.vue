@@ -23,7 +23,7 @@
 
           <ion-item>
             <ion-label>
-              <h3>balance</h3>
+              <h3>Balance</h3>
               <p>Rs {{ userDetails.balance }}</p>
             </ion-label>
           </ion-item>
@@ -60,8 +60,22 @@
 
           <ion-item>
             <ion-label>
-              <h3>Mobile No</h3>
+              <h3>Zip No</h3>
               <p>{{ userDetails.zip || "-" }}</p>
+            </ion-label>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>
+              <h3>Account Number</h3>
+              <p>{{ userDetails.acc_no || "-" }}</p>
+            </ion-label>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>
+              <h3>Ifsc Code</h3>
+              <p>{{ userDetails.ifsc_code || "-" }}</p>
             </ion-label>
           </ion-item>
         </ion-list>
