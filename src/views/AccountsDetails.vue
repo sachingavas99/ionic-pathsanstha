@@ -23,7 +23,9 @@
 
         <ion-grid v-if="transactions.length" class="data-col">
           <ion-row v-for="(transaction, index) in transactions" :key="index">
-            <ion-col>{{ transaction.ACCOUNT }}</ion-col>
+            <ion-col @click="selectAccount(transaction)">
+              {{ transaction.ACCOUNT }}
+            </ion-col>
             <ion-col class="colname">{{ transaction.TYPE_NAME }}</ion-col>
             <ion-col>{{ transaction.BALANCE }}</ion-col>
           </ion-row>
@@ -36,6 +38,21 @@
             </ion-label>
           </ion-item>
         </ion-list>
+
+        <!-- Account Details Section (Conditionally displayed) -->
+        <ion-grid v-if="selectedAccount">
+          <ion-row>
+            <ion-col>
+              <h3>Account Details</h3>
+              <p><strong>Account:</strong> {{ selectedAccount.ACCOUNT }}</p>
+              <p>
+                <strong>Account Type:</strong> {{ selectedAccount.TYPE_NAME }}
+              </p>
+              <p><strong>Balance:</strong> {{ selectedAccount.BALANCE }}</p>
+              <!-- You can add more details of the selected account here -->
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </div>
     </ion-content>
   </ion-page>
@@ -46,31 +63,16 @@ import api from "@/api";
 import validator from "validator";
 
 export default {
-  watch: {},
   data() {
     return {
       transactions: [],
+      selectedAccount: null, // Track the selected account
     };
-  },
-  computed: {
-    isFormValid() {
-      return [10, 12].includes(this.email?.length) && this.password?.length > 3;
-    },
   },
   mounted() {
     this.fetchTransactions();
   },
   methods: {
-    validateForm() {
-      this.validation.email = !validator.isEmpty(this.email);
-      this.validation.passward = !validator.isEmpty(this.password);
-      if (!this.validation.email) {
-        return "Pleae enter valid email";
-      }
-      if (!this.validation.passward) {
-        return "Pleae enter valid password";
-      }
-    },
     async fetchTransactions() {
       try {
         this.loadderOn();
@@ -82,12 +84,8 @@ export default {
             type: "C",
           }
         );
-        // console.log(JSON.stringify(response?.data));
-
-        // console.log("Response:", response.data);
 
         if (response.data && response.data.statement) {
-          // Parse the JSON string into an array of objects
           const statementArray = JSON.parse(response.data.statement);
           if (Array.isArray(statementArray)) {
             this.transactions = statementArray;
@@ -95,7 +93,7 @@ export default {
             console.error("Invalid statement format:", response.data.statement);
           }
         } else {
-          console.log("No transactions found."); // Log if no transactions found
+          console.log("No transactions found.");
         }
       } catch (error) {
         this.error("Something went wrong while fetching transaction details.");
@@ -104,26 +102,14 @@ export default {
       }
       this.loadderOff();
     },
+    selectAccount(account) {
+      this.selectedAccount = account; // Set the selected account
+    },
   },
 };
 </script>
 
 <style scoped>
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
-
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-  color: #8c8c8c;
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
-}
 .header-col {
   font-weight: bold;
   text-align: center;

@@ -21,11 +21,11 @@
                 'ion-invalid': !validation.email,
                 'ion-touched': !validation.email,
               }"
-              error-text="Invalid email"
+              error-text="Invalid Number"
               @input="validateForm"
             >
               <div slot="label">
-                Email <ion-text color="danger">(Required)</ion-text>
+                Mobile Number <ion-text color="danger">(Required)</ion-text>
               </div>
             </ion-input>
           </ion-item>
@@ -160,7 +160,7 @@ export default {
       this.validation.email = !validator.isEmpty(this.email);
       this.validation.passward = !validator.isEmpty(this.password);
       if (!this.validation.email) {
-        return "Pleae enter valid email";
+        return "Pleae enter valid Number";
       }
       if (!this.validation.passward) {
         return "Pleae enter valid password";
@@ -170,7 +170,7 @@ export default {
     validateEmail() {
       this.validation.email = !validator.isEmpty(this.email);
       if (!this.validation.email) {
-        return "Pleae enter valid email";
+        return "Pleae enter valid number";
       }
     },
 
