@@ -81,6 +81,10 @@
               </div>
             </ion-input>
           </ion-item>
+          <!-- <ion-item lines="none">
+            <ion-label> Unique TXN Number: </ion-label>
+            <ion-text>{{ utr }}</ion-text>
+          </ion-item> -->
         </ion-list>
       </div>
 
@@ -126,6 +130,7 @@ export default {
       },
       beneficiaryName: "",
       beneficiaries: [],
+      utr: "",
     };
   },
   computed: {
@@ -135,8 +140,30 @@ export default {
   },
   mounted() {
     this.userId = this.loggedInUserId();
+    this.generateUTR();
   },
   methods: {
+    generateUTR() {
+      let random_id = Math.ceil(Math.random() * 1000);
+      var currentDate = new Date();
+      const datetime =
+        currentDate.toJSON().slice(0, 10).replace(/-/g, "") +
+        "" +
+        (currentDate.getHours() < 10
+          ? "0" + currentDate.getHours()
+          : currentDate.getHours()) +
+        "" +
+        (currentDate.getMinutes() < 10
+          ? "0" + currentDate.getMinutes()
+          : currentDate.getMinutes()) +
+        "" +
+        (currentDate.getSeconds() < 10
+          ? "0" + currentDate.getSeconds()
+          : currentDate.getSeconds());
+
+      this.utr = datetime + random_id; // Store the generated UTR number
+    },
+
     openUserConfirmationPopup() {
       const errorMessage = this.validateForm();
       if (errorMessage) {
@@ -227,6 +254,39 @@ export default {
 
         this.loadderOn();
         const userId = this.loggedInUserId();
+
+        // let random_id = Math.ceil(Math.random() * 1000);
+        // // console.log(random_id);
+        // var currentDate = new Date();
+        // // console.log(currentDate);
+        // currentDate.getHours() < 10
+        //   ? "0" + currentDate.getHours()
+        //   : currentDate.getHours();
+        // const datetime =
+        //   currentDate.toJSON().slice(0, 10).replace(/-/g, "") +
+        //   "" +
+        //   (currentDate.getHours() < 10
+        //     ? "0" + currentDate.getHours()
+        //     : currentDate.getHours()) +
+        //   "" +
+        //   (currentDate.getMinutes() < 10
+        //     ? "0" + currentDate.getMinutes()
+        //     : currentDate.getMinutes()) +
+        //   "" +
+        //   (currentDate.getSeconds() < 10
+        //     ? "0" + currentDate.getSeconds()
+        //     : currentDate.getSeconds());
+        // //(today.getSeconds() < 10 ?  "0" + today.getSeconds() : today.getSeconds())
+        // var now_date =
+        //   currentDate.getFullYear() +
+        //   "-" +
+        //   (currentDate.getMonth() + 1) +
+        //   "-" +
+        //   currentDate.getDate();
+
+        // console.log(datetime + random_id);
+        // const utr = datetime + random_id;
+
         const response = await api.post("/vcp.java/servlet/MobileTrasnaction", {
           email: userId,
           same_bank: "Y",
@@ -234,6 +294,7 @@ export default {
           amount: this.amount,
           reason: this.reason,
           bene_name: this.beneficiaryName,
+          utr_number: this.utr,
         });
 
         if (response?.data?.message == "Success") {

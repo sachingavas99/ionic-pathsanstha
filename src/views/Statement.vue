@@ -140,7 +140,7 @@ export default {
   text-align: center;
 }
 ion-title {
-  color: #7c89e3;
+  /* color: #7c89e3; */
   font-size: 25px;
 }
 .data-col {

@@ -3,9 +3,9 @@
     <ion-loading class="custom-loading" :isOpen="showLoader"> </ion-loading>
     <ion-header :translucent="true">
       <ion-toolbar>
-        <ion-buttons slot="start">
+        <!-- <ion-buttons slot="start">
           <ion-menu-button color="primary"></ion-menu-button>
-        </ion-buttons>
+        </ion-buttons> -->
         <ion-title>Login</ion-title>
       </ion-toolbar>
     </ion-header>
@@ -25,7 +25,7 @@
               @input="validateForm"
             >
               <div slot="label">
-                Email <ion-text color="danger">(Required)</ion-text>
+                Mobile Number <ion-text color="danger">(Required)</ion-text>
               </div>
             </ion-input>
           </ion-item>
@@ -44,7 +44,7 @@
               @input="validateForm"
             >
               <div slot="label">
-                password <ion-text color="danger">(Required)</ion-text>
+                Password <ion-text color="danger">(Required)</ion-text>
               </div>
             </ion-input>
           </ion-item>

@@ -23,7 +23,7 @@
 
           <ion-item>
             <ion-label>
-              <h3>balance</h3>
+              <h3>Balance</h3>
               <p>Rs {{ userDetails.balance }}</p>
             </ion-label>
           </ion-item>
@@ -152,11 +152,18 @@ export default {
   line-height: 26px;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-  color: #8c8c8c;
+.container p {
+  font-size: 14px;
+  line-height: 20px;
+  color: #00060b;
   margin: 0;
+}
+
+.container h3 {
+  font-size: 14px;
+  line-height: 22px;
+  color: #00060b;
+  font-weight: bold;
 }
 
 #container a {

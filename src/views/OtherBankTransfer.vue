@@ -98,6 +98,10 @@
               </div>
             </ion-input>
           </ion-item>
+          <!-- <ion-item lines="none">
+            <ion-label> Unique TXN Number: </ion-label>
+            <ion-text>{{ utr }}</ion-text>
+          </ion-item> -->
         </ion-list>
       </div>
       <template v-if="openConfirmationModal">
@@ -141,6 +145,7 @@ export default {
       openConfirmationModal: false,
       selectedBeneficiary: false,
       beneficiaries: [],
+      utr: "",
       validation: {
         amount: true,
         ben_account: false,
@@ -158,9 +163,31 @@ export default {
   },
   mounted() {
     this.userId = this.loggedInUserId();
+    this.generateUTR();
     this.fetchBeneficiary();
   },
   methods: {
+    generateUTR() {
+      let random_id = Math.ceil(Math.random() * 1000);
+      var currentDate = new Date();
+      const datetime =
+        currentDate.toJSON().slice(0, 10).replace(/-/g, "") +
+        "" +
+        (currentDate.getHours() < 10
+          ? "0" + currentDate.getHours()
+          : currentDate.getHours()) +
+        "" +
+        (currentDate.getMinutes() < 10
+          ? "0" + currentDate.getMinutes()
+          : currentDate.getMinutes()) +
+        "" +
+        (currentDate.getSeconds() < 10
+          ? "0" + currentDate.getSeconds()
+          : currentDate.getSeconds());
+
+      this.utr = datetime + random_id; // Store the generated UTR number
+    },
+
     openUserConfirmationPopup() {
       const errorMessage = this.validateForm();
       if (errorMessage) {
@@ -258,6 +285,7 @@ export default {
           bene_bankname: this.bank_name,
           bene_name: this.bene_name,
           reason: this.reason,
+          utr_number: this.utr,
         });
 
         if (response?.data) {

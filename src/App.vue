@@ -236,7 +236,9 @@ ion-menu.md ion-item ion-icon {
 }
 
 ion-menu.md ion-item ion-label {
-  font-weight: 500;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 22px;
 }
 
 ion-menu.ios ion-content {

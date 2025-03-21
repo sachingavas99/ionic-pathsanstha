@@ -7,7 +7,7 @@
         <ion-buttons slot="start">
           <ion-menu-button color="primary"></ion-menu-button>
         </ion-buttons>
-        <ion-title>Add beneficiary</ion-title>
+        <ion-title>Add Beneficiary</ion-title>
       </ion-toolbar>
     </ion-header>
 
@@ -26,7 +26,7 @@
               error-text="Invalid beneficiary account"
               @input="validateForm"
             >
-              <div slot="label">
+              <div slot="label" class="clabel">
                 Beneficiary Account Number
                 <ion-text color="danger">(Required)</ion-text>
               </div>
@@ -45,7 +45,7 @@
               error-text="Invalid beneficiary account"
               @input="validateForm"
             >
-              <div slot="label">
+              <div slot="label" class="clabel">
                 Confirm Beneficiary Account Number
                 <ion-text color="danger">(Required)</ion-text>
               </div>
@@ -64,7 +64,7 @@
               error-text="Invalid IFSC Number"
               @input="validateForm"
             >
-              <div slot="label">
+              <div slot="label" class="clabel">
                 IFSC Number <ion-text color="danger">(Required)</ion-text>
               </div>
             </ion-input>
@@ -82,7 +82,7 @@
               error-text="Invalid Beneficiary Name."
               @input="validateForm"
             >
-              <div slot="label">
+              <div slot="label" class="clabel">
                 Beneficiary Name <ion-text color="danger">(Required)</ion-text>
               </div>
             </ion-input>
@@ -100,7 +100,7 @@
               error-text="Invalid Bank Name."
               @input="validateForm"
             >
-              <div slot="label">
+              <div slot="label" class="clabel">
                 Bank Name <ion-text color="danger">(Required)</ion-text>
               </div>
             </ion-input>
@@ -232,6 +232,10 @@ export default {
 <style scoped>
 ion-input {
   text-transform: uppercase;
+}
+
+.clabel {
+  text-transform: none;
 }
 
 #container strong {
