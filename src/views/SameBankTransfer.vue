@@ -144,7 +144,7 @@ export default {
   },
   methods: {
     generateUTR() {
-      let random_id = Math.ceil(Math.random() * 1000);
+      let random_id = Math.ceil(Math.random() * 100);
       var currentDate = new Date();
       const datetime =
         currentDate.toJSON().slice(0, 10).replace(/-/g, "") +

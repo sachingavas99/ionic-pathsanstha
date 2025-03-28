@@ -41,7 +41,7 @@
           <ion-col size="6">
             <ion-card color="primary" router-link="/UserDetails">
               <ion-card-header>
-                <ion-card-title> Customer Deatails </ion-card-title>
+                <ion-card-title> Customer Details </ion-card-title>
               </ion-card-header>
               <ion-card-content>
                 <div class="card-content-wrapper">
@@ -351,12 +351,15 @@ ion-text {
 }
 
 .header {
-  background-color: darkblue;
+  /* background-color: darkblue; */
+  --background: linear-gradient(120deg, #4b6cb7, #182848);
+
   text-align: center;
 }
 .statementcolor {
   background-color: wheat;
 }
+
 /* .card {
   border-radius: 20px;
 } */

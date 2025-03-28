@@ -286,11 +286,70 @@ export default {
 </script>
 
 <style scoped>
+ion-content {
+  --background: var(--primary-gradient);
+  --color: var(--light-color);
+}
+
+ion-header {
+  --background: transparent;
+}
+
+ion-toolbar {
+  --background: rgba(255, 255, 255, 0.1);
+  --border-color: transparent;
+  --border-width: 0;
+}
+
+ion-title {
+  /* color: rgb(46, 118, 180); */
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.container {
+  padding: 20px;
+  margin-top: 10px;
+}
+
+.label {
+  font-size: larger;
+}
+
+/* Card-like form appearance */
+ion-list {
+  background: var(--card-background);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+/* Input styling */
+/* ion-item {
+  --background: transparent;
+  --border-color: var(--border-color);
+  --border-style: solid;
+  --border-width: 0 0 1px 0;
+  --padding-start: 0;
+  margin-bottom: 16px;
+} */
+
+/* ion-input {
+  --color: var(--text-color);
+  --placeholder-color: rgba(44, 62, 80, 0.6);
+  font-size: 16px;
+} */
+
 .forgot {
   text-align: right;
   font-size: small;
+  padding: 8px 4px;
 }
 
+.forgot ion-label:hover {
+  color: crimson;
+  text-decoration: underline;
+}
 .confirmation-dialog {
   position: fixed;
   top: 0;
@@ -310,6 +369,46 @@ export default {
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   font-weight: bolder;
+}
+
+ion-footer ion-toolbar {
+  --background: transparent;
+  --border-style: none;
+  padding: 15px 15px 25px;
+}
+
+/* Dialog styling */
+.confirmation-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  backdrop-filter: blur(5px);
+}
+
+.dialog-content {
+  background-color: var(--card-background);
+  padding: 28px;
+  border-radius: 20px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+  font-weight: normal;
+  max-width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  line-height: 1.6;
+  color: var(--text-color);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dialog-content p {
+  margin-bottom: 20px;
+  font-size: 15px;
 }
 
 .button-container {
@@ -344,13 +443,57 @@ export default {
   margin-left: 10px;
   margin-right: 10px;
 } */
+/* .image-container {
+  text-align: center;
+} */
+
 .image-container {
   text-align: center;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  animation: fadeIn 1s ease-in-out;
 }
 
 .image-container img {
   margin: 20px auto; /* 20px top and bottom margin, auto left and right margin */
-  width: 300px; /* Set the desired width */
+  width: 250px; /* Set the desired width */
   height: auto; /* Maintain the aspect ratio */
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+.image-container img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading spinner */
+.custom-loading {
+  --background: rgba(0, 0, 0, 0.7);
+  --spinner-color: var(--light-color);
+}
+
+/* Focus states for inputs */
+ion-input:focus {
+  --border-color: var(--accent-color);
+}
+
+/* Error states */
+.ion-invalid.ion-touched {
+  --border-color: var(--error-color);
 }
 </style>
