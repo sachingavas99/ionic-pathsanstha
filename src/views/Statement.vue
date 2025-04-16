@@ -12,34 +12,43 @@
     </ion-header>
 
     <ion-content :fullscreen="true">
-      <div class="container">
-        <ion-grid class="header-col">
-          <ion-row>
-            <ion-col>Date</ion-col>
-            <ion-col>Particular</ion-col>
-            <ion-col>Amount</ion-col>
-            <ion-col>Type</ion-col>
-            <ion-col>Balance</ion-col>
-          </ion-row>
-        </ion-grid>
+      <div class="statement-container">
+        <div class="statement-card">
+          <ion-grid class="header-col">
+            <ion-row>
+              <ion-col>Date</ion-col>
+              <ion-col>Particular</ion-col>
+              <ion-col>Amount</ion-col>
+              <ion-col>Type</ion-col>
+              <ion-col>Balance</ion-col>
+            </ion-row>
+          </ion-grid>
 
-        <ion-grid v-if="transactions.length" class="data-col">
-          <ion-row v-for="(transaction, index) in transactions" :key="index">
-            <ion-col>{{ transaction.DATE }}</ion-col>
-            <ion-col>{{ transaction.PARTICULAR }}</ion-col>
-            <ion-col>{{ transaction.AMOUNT }}</ion-col>
-            <ion-col>{{ transaction.TRNTYPE }}</ion-col>
-            <ion-col>{{ transaction.BALANCE }}</ion-col>
-          </ion-row>
-        </ion-grid>
+          <ion-grid v-if="transactions.length" class="data-col">
+            <ion-row
+              v-for="(transaction, index) in transactions"
+              :key="index"
+              :class="{
+                'row-dr': transaction.TRNTYPE === 'DR',
+                'row-cr': transaction.TRNTYPE === 'CR',
+              }"
+            >
+              <ion-col>{{ transaction.DATE }}</ion-col>
+              <ion-col>{{ transaction.PARTICULAR }}</ion-col>
+              <ion-col>{{ transaction.AMOUNT }}</ion-col>
+              <ion-col>{{ transaction.TRNTYPE }}</ion-col>
+              <ion-col>{{ transaction.BALANCE }}</ion-col>
+            </ion-row>
+          </ion-grid>
 
-        <ion-list v-else>
-          <ion-item>
-            <ion-label>
-              <h3>No transactions were made earlier.</h3>
-            </ion-label>
-          </ion-item>
-        </ion-list>
+          <ion-list v-else>
+            <ion-item>
+              <ion-label>
+                <h3>No transactions were made earlier.</h3>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </div>
       </div>
     </ion-content>
   </ion-page>
@@ -133,6 +142,26 @@ export default {
 
 #container a {
   text-decoration: none;
+}
+.row-dr {
+  font-weight: 600;
+  color: #e74c3c;
+}
+
+.row-cr {
+  font-weight: 600;
+  color: #2ecc71;
+}
+.statement-container {
+  max-width: 1000px;
+  margin: 16px auto;
+}
+.statement-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 24px;
 }
 
 .header-col {
