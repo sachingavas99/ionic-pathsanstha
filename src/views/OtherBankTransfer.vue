@@ -7,7 +7,7 @@
         <ion-buttons slot="start">
           <ion-menu-button color="primary"></ion-menu-button>
         </ion-buttons>
-        <ion-title>Transfer to Other bank</ion-title>
+        <ion-title>Transfer To Other Bank</ion-title>
       </ion-toolbar>
     </ion-header>
 
@@ -98,6 +98,10 @@
               </div>
             </ion-input>
           </ion-item>
+          <!-- <ion-item lines="none">
+            <ion-label> Unique TXN Number: </ion-label>
+            <ion-text>{{ utr }}</ion-text>
+          </ion-item> -->
         </ion-list>
       </div>
       <template v-if="openConfirmationModal">
@@ -141,6 +145,7 @@ export default {
       openConfirmationModal: false,
       selectedBeneficiary: false,
       beneficiaries: [],
+      utr: "",
       validation: {
         amount: true,
         ben_account: false,
@@ -158,9 +163,31 @@ export default {
   },
   mounted() {
     this.userId = this.loggedInUserId();
+    this.generateUTR();
     this.fetchBeneficiary();
   },
   methods: {
+    generateUTR() {
+      let random_id = Math.ceil(Math.random() * 100);
+      var currentDate = new Date();
+      const datetime =
+        currentDate.toJSON().slice(0, 10).replace(/-/g, "") +
+        "" +
+        (currentDate.getHours() < 10
+          ? "0" + currentDate.getHours()
+          : currentDate.getHours()) +
+        "" +
+        (currentDate.getMinutes() < 10
+          ? "0" + currentDate.getMinutes()
+          : currentDate.getMinutes()) +
+        "" +
+        (currentDate.getSeconds() < 10
+          ? "0" + currentDate.getSeconds()
+          : currentDate.getSeconds());
+
+      this.utr = datetime + random_id; // Store the generated UTR number
+    },
+
     openUserConfirmationPopup() {
       const errorMessage = this.validateForm();
       if (errorMessage) {
@@ -248,17 +275,21 @@ export default {
 
         this.loadderOn();
         const userId = this.loggedInUserId();
-        const response = await api.post("/vcp.java/servlet/MobileTrasnaction", {
-          email: userId,
-          same_bank: "N",
-          bene_account: this.ben_account,
-          amount: this.amount,
-          rtgs_neft: "R",
-          bene_ifsc: this.ifsc_code,
-          bene_bankname: this.bank_name,
-          bene_name: this.bene_name,
-          reason: this.reason,
-        });
+        const response = await api.post(
+          "/webbank.java/servlet/MobileTrasnaction",
+          {
+            email: userId,
+            same_bank: "N",
+            bene_account: this.ben_account,
+            amount: this.amount,
+            rtgs_neft: "R",
+            bene_ifsc: this.ifsc_code,
+            bene_bankname: this.bank_name,
+            bene_name: this.bene_name,
+            reason: this.reason,
+            utr_number: this.utr,
+          }
+        );
 
         if (response?.data) {
           this.success("Transaction succeed.");
@@ -289,10 +320,13 @@ export default {
       try {
         this.loadderOn();
         const userId = this.loggedInUserId();
-        const response = await api.post("/vcp.java/servlet/ShowBeneficiary", {
-          email: userId,
-          type: "B",
-        });
+        const response = await api.post(
+          "/webbank.java/servlet/ShowBeneficiary",
+          {
+            email: userId,
+            type: "B",
+          }
+        );
 
         // console.log(JSON.stringify(response?.data));
         // console.log("Response:", response.data);
@@ -320,6 +354,14 @@ export default {
 </script>
 
 <style scoped>
+/* Card-like form appearance */
+ion-list {
+  background: var(--card-background);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  margin-bottom: 20px;
+}
 #container strong {
   font-size: 20px;
   line-height: 26px;

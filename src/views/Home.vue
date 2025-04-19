@@ -29,7 +29,7 @@
                       margin-top: 0;
                     "
                   >
-                    Malkapur Urban Co-Op Credit Society Ltd.
+                    Bhedasgaon Nagari Sahakari Pathsanstha Ltd.
                   </p>
                 </ion-card-title>
               </ion-card-header>
@@ -37,11 +37,17 @@
           </ion-col>
         </ion-row>
 
-        <ion-row>
-          <ion-col size="6">
-            <ion-card color="primary" router-link="/UserDetails">
+        <ion-item-divider class="section-divider">
+          <ion-icon :icon="peopleOutline" slot="start"></ion-icon>
+          <ion-label>Account Management</ion-label>
+        </ion-item-divider>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6">
+              <!-- <ion-card color="primary" router-link="/UserDetails">
               <ion-card-header>
-                <ion-card-title> Customer Deatails </ion-card-title>
+                <ion-card-title> Customer Details </ion-card-title>
               </ion-card-header>
               <ion-card-content>
                 <div class="card-content-wrapper">
@@ -52,47 +58,44 @@
                   ></ion-icon>
                 </div>
               </ion-card-content>
-            </ion-card>
-          </ion-col>
-          <ion-col size="6">
-            <ion-card color="secondary" router-link="/SameBankTransfer">
-              <ion-card-header>
-                <ion-card-title>Same Bank Transfer</ion-card-title>
-              </ion-card-header>
-              <ion-card-content>
-                <div class="card-content-wrapper">
-                  <ion-icon
-                    aria-hidden="true"
-                    slot="start"
-                    :ios="sendOutline"
-                    :md="sendSharp"
-                  ></ion-icon>
+            </ion-card> -->
+              <ion-card
+                class="dashboard-card account"
+                router-link="/UserDetails"
+              >
+                <div class="card-icon">
+                  <ion-icon :icon="mailOutline"></ion-icon>
                 </div>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col size="6">
-            <ion-card color="tertiary" router-link="/OtherBankTransfer">
-              <ion-card-header>
-                <ion-card-title>Other Bank Transfer</ion-card-title>
-              </ion-card-header>
-              <ion-card-content>
-                <div class="card-content-wrapper">
-                  <ion-icon
-                    aria-hidden="true"
-                    slot="start"
-                    :ios="sendOutline"
-                    :md="sendSharp"
-                  ></ion-icon>
+                <div class="card-details">
+                  <h3>Customer Details</h3>
+                  <p>View your profile information</p>
                 </div>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-          <ion-col size="6">
-            <ion-card color="medium" router-link="/AccountsDetails">
-              <ion-card-header>
+              </ion-card>
+              <!-- <div class="card-container">
+              <div class="dashboard-card account" router-link="/UserDetails">
+                <div class="card-icon">
+                  <ion-icon :icon="mailOutline"></ion-icon>
+                </div>
+                <div class="card-details">
+                  <h3>Customer Details</h3>
+                  <p>View your profile information</p>
+                </div>
+              </div>
+            </div> -->
+            </ion-col>
+            <ion-col size="6">
+              <ion-card
+                class="dashboard-card account"
+                router-link="/AccountsDetails"
+              >
+                <div class="card-icon">
+                  <ion-icon :icon="accessibilityOutline"></ion-icon>
+                </div>
+                <div class="card-details">
+                  <h3>Accounts</h3>
+                  <p>View your account details</p>
+                </div>
+                <!-- <ion-card-header>
                 <ion-card-title>Accounts</ion-card-title>
               </ion-card-header>
               <ion-card-content>
@@ -103,114 +106,153 @@
                     :md="accessibilityOutline"
                   ></ion-icon>
                 </div>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col size="6">
-            <ion-card color="success" router-link="/AddBeneficiary">
-              <ion-card-header>
-                <ion-card-title>Add Beneficiary</ion-card-title>
-              </ion-card-header>
-              <ion-card-content>
-                <div class="card-content-wrapper">
-                  <ion-icon
-                    aria-hidden="true"
-                    slot="start"
-                    :ios="personAddOutline"
-                    :md="personAddSharp"
-                  ></ion-icon>
-                </div>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-          <ion-col size="6">
-            <ion-card color="danger" router-link="/RemoveBeneficiary">
-              <ion-card-header>
-                <ion-card-title>Remove Beneficiary</ion-card-title>
-              </ion-card-header>
-              <ion-card-content>
-                <div class="card-content-wrapper">
-                  <ion-icon
-                    slot="start"
-                    :ios="closeCircleSharp"
-                    :md="closeCircleOutline"
-                  ></ion-icon>
-                </div>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col size="6">
-            <ion-card class="statementcolor" router-link="/Statement">
-              <ion-card-header>
-                <ion-card-title>Statement</ion-card-title>
-              </ion-card-header>
-              <ion-card-content>
-                <div class="card-content-wrapper">
-                  <ion-icon
-                    slot="start"
-                    :ios="menuSharp"
-                    :md="menuOutline"
-                  ></ion-icon>
-                </div>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-          <ion-col size="6">
-            <ion-card color="warning" router-link="/FastTag">
-              <ion-card-header>
-                <ion-card-title>Fast Tag</ion-card-title>
-              </ion-card-header>
-              <ion-card-content>
-                <div class="card-content-wrapper">
-                  <ion-icon
-                    slot="start"
-                    :ios="bookmarkSharp"
-                    :md="bookmarkOutline"
-                  ></ion-icon>
-                </div>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-        </ion-row>
+              </ion-card-content> -->
+              </ion-card>
+            </ion-col>
+          </ion-row>
 
-        <ion-row>
-          <ion-col size="6">
-            <ion-card color="dark" router-link="/QRCollection">
-              <ion-card-header>
-                <ion-card-title>QR Collection</ion-card-title>
-              </ion-card-header>
-              <ion-card-content>
-                <div class="card-content-wrapper">
-                  <ion-icon
-                    slot="start"
-                    :ios="qrCodeSharp"
-                    :md="qrCodeOutline"
-                  ></ion-icon>
+          <ion-row>
+            <ion-col size="6">
+              <ion-card class="dashboard-card account" router-link="/Statement">
+                <div class="card-icon">
+                  <ion-icon :icon="menuOutline"></ion-icon>
                 </div>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-          <ion-col size="6">
-            <ion-card color="danger" router-link="/Logout">
-              <ion-card-header>
-                <ion-card-title>Logout</ion-card-title>
-              </ion-card-header>
-              <ion-card-content>
-                <div class="card-content-wrapper">
-                  <ion-icon
-                    slot="start"
-                    :ios="powerSharp"
-                    :md="powerOutline"
-                  ></ion-icon>
+                <div class="card-details">
+                  <h3>Statement</h3>
+                  <p>View your transaction history</p>
                 </div>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-        </ion-row>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <!-- Money Transfers -->
+        <ion-item-divider class="section-divider">
+          <ion-icon :icon="swapHorizontalOutline" slot="start"></ion-icon>
+          <ion-label>Money Transfers</ion-label>
+        </ion-item-divider>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6">
+              <ion-card
+                class="dashboard-card transfer"
+                router-link="/SameBankTransfer"
+              >
+                <div class="card-icon">
+                  <ion-icon :icon="sendOutline"></ion-icon>
+                </div>
+                <div class="card-details">
+                  <h3>Same Bank Transfer</h3>
+                  <p>Transfer within our bank</p>
+                </div>
+              </ion-card>
+            </ion-col>
+
+            <ion-col size="6">
+              <ion-card
+                class="dashboard-card transfer"
+                router-link="/OtherBankTransfer"
+              >
+                <div class="card-icon">
+                  <ion-icon :icon="sendOutline"></ion-icon>
+                </div>
+                <div class="card-details">
+                  <h3>Other Bank Transfer</h3>
+                  <p>Transfer to external banks</p>
+                </div>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <!-- Beneficiary Management -->
+        <ion-item-divider class="section-divider">
+          <ion-icon :icon="peopleCircleOutline" slot="start"></ion-icon>
+          <ion-label>Beneficiary Management</ion-label>
+        </ion-item-divider>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6">
+              <ion-card
+                class="dashboard-card beneficiary"
+                router-link="/AddBeneficiary"
+              >
+                <div class="card-icon">
+                  <ion-icon :icon="personAddOutline"></ion-icon>
+                </div>
+                <div class="card-details">
+                  <h3>Add Beneficiary</h3>
+                  <p>Add a new payment recipient</p>
+                </div>
+              </ion-card>
+            </ion-col>
+            <ion-col size="6">
+              <ion-card
+                class="dashboard-card beneficiary"
+                router-link="/RemoveBeneficiary"
+              >
+                <div class="card-icon">
+                  <ion-icon :icon="closeCircleOutline"></ion-icon>
+                </div>
+                <div class="card-details">
+                  <h3>Remove Beneficiary</h3>
+                  <p>Remove existing recipients</p>
+                </div>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <!-- Other Services -->
+        <ion-item-divider class="section-divider">
+          <ion-icon :icon="appsOutline" slot="start"></ion-icon>
+          <ion-label>Other Services</ion-label>
+        </ion-item-divider>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6">
+              <ion-card class="dashboard-card services" router-link="/FastTag">
+                <div class="card-icon">
+                  <ion-icon :icon="bookmarkOutline"></ion-icon>
+                </div>
+                <div class="card-details">
+                  <h3>Fast Tag</h3>
+                  <p>Manage your FastTag account</p>
+                </div>
+              </ion-card>
+            </ion-col>
+            <ion-col size="6">
+              <ion-card
+                class="dashboard-card services"
+                router-link="/QRCollection"
+              >
+                <div class="card-icon">
+                  <ion-icon :icon="qrCodeOutline"></ion-icon>
+                </div>
+                <div class="card-details">
+                  <h3>QR Collection</h3>
+                  <p>Generate payment QR codes</p>
+                </div>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="6">
+              <ion-card class="dashboard-card logout" router-link="/Logout">
+                <div class="card-icon">
+                  <ion-icon :icon="powerOutline"></ion-icon>
+                </div>
+                <div class="card-details">
+                  <h3>Logout</h3>
+                  <p>Secure exit from account</p>
+                </div>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </ion-grid>
     </ion-content>
   </ion-page>
@@ -241,6 +283,10 @@ import {
   closeCircleSharp,
   powerOutline,
   powerSharp,
+  peopleOutline,
+  swapHorizontalOutline,
+  peopleCircleOutline,
+  appsOutline,
 } from "ionicons/icons";
 export default {
   mixins: [myMixin],
@@ -265,6 +311,10 @@ export default {
       closeCircleSharp,
       powerOutline,
       powerSharp,
+      peopleOutline,
+      swapHorizontalOutline,
+      peopleCircleOutline,
+      appsOutline,
     };
   },
   methods: {},
@@ -320,6 +370,95 @@ export default {
 };
 </script>
 <style scoped>
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.dashboard-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  height: 140px;
+}
+
+.dashboard-card:active {
+  transform: scale(0.98);
+}
+
+.card-icon {
+  margin-bottom: 12px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.card-icon ion-icon {
+  font-size: 24px;
+}
+
+.card-details h3 {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.card-details p {
+  margin: 0;
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* Section dividers */
+.section-divider {
+  --background: transparent;
+  --color: #2c3e50;
+  margin: 16px 0 8px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.section-divider ion-icon {
+  color: #4b6cb7;
+  margin-right: 8px;
+}
+
+/* Account cards */
+.dashboard-card.account .card-icon {
+  background-color: rgba(52, 152, 219, 0.15);
+  color: #3498db;
+}
+/* Transfer cards */
+.dashboard-card.transfer .card-icon {
+  background-color: rgba(46, 204, 113, 0.15);
+  color: #2ecc71;
+}
+
+/* Beneficiary cards */
+.dashboard-card.beneficiary .card-icon {
+  background-color: rgba(155, 89, 182, 0.15);
+  color: #9b59b6;
+}
+
+/* Services cards */
+.dashboard-card.services .card-icon {
+  background-color: rgba(243, 156, 18, 0.15);
+  color: #f39c12;
+}
+
+/* Logout card */
+.dashboard-card.logout .card-icon {
+  background-color: rgba(231, 76, 60, 0.15);
+  color: #e74c3c;
+}
 ion-card {
   height: 120px;
   border-radius: 20px;
@@ -343,7 +482,12 @@ ion-text {
 }
 
 .title-wrapper ion-text {
-  font-size: 18px;
+  /* font-size: 18px; */
+  --background: transparent;
+  --color: #2c3e50;
+  margin: 16px 0 8px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 .head {
   height: 50px;
@@ -351,12 +495,15 @@ ion-text {
 }
 
 .header {
-  background-color: darkblue;
+  /* background-color: darkblue; */
+  --background: linear-gradient(120deg, #4b6cb7, #182848);
+
   text-align: center;
 }
 .statementcolor {
   background-color: wheat;
 }
+
 /* .card {
   border-radius: 20px;
 } */

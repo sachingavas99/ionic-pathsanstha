@@ -53,6 +53,7 @@ import {
   IonSelect,
   IonSelectOption,
   IonNote,
+  IonItemDivider,
 } from "@ionic/vue";
 
 const app = createApp(App).use(IonicVue).use(router);
@@ -84,6 +85,7 @@ app.component("ion-img", IonImg);
 app.component("ion-select", IonSelect);
 app.component("ion-select-option", IonSelectOption);
 app.component("ion-note", IonNote);
+app.component("ion-item-divider", IonItemDivider);
 
 app.mixin(mixin);
 

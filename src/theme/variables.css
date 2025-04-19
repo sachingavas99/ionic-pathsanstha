@@ -78,7 +78,7 @@ http://ionicframework.com/docs/theming/ */
   /* --custom-background: #fff; */
   /* --custom-text-color: 000000; */
   --custom-background: #b6d9c9;
-  --custom-text-color: 000000;
+  --custom-text-color: #000000;
 }
 
 @media (prefers-color-scheme: dark) {

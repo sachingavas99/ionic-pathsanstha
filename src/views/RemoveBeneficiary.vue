@@ -7,7 +7,7 @@
         <ion-buttons slot="start">
           <ion-menu-button color="primary"></ion-menu-button>
         </ion-buttons>
-        <ion-title>Remove beneficiary</ion-title>
+        <ion-title>Remove Beneficiary</ion-title>
       </ion-toolbar>
     </ion-header>
 
@@ -166,13 +166,16 @@ export default {
 
         this.loadderOn();
         const userId = this.loggedInUserId();
-        const response = await api.post("/vcp.java/servlet/AddBeneficiary", {
-          email: userId,
-          bene_account: this.ben_account,
-          bene_ifsc: this.ifsc_code,
-          bene_bankname: this.bank_name,
-          type: "R",
-        });
+        const response = await api.post(
+          "/webbank.java/servlet/AddBeneficiary",
+          {
+            email: userId,
+            bene_account: this.ben_account,
+            bene_ifsc: this.ifsc_code,
+            bene_bankname: this.bank_name,
+            type: "R",
+          }
+        );
 
         if (response?.data?.message == "Success") {
           this.success("Beneficiary Remove Successfully.");
@@ -194,10 +197,13 @@ export default {
       try {
         this.loadderOn();
         const userId = this.loggedInUserId();
-        const response = await api.post("/vcp.java/servlet/ShowBeneficiary", {
-          email: userId,
-          type: "B",
-        });
+        const response = await api.post(
+          "/webbank.java/servlet/ShowBeneficiary",
+          {
+            email: userId,
+            type: "B",
+          }
+        );
 
         // console.log(JSON.stringify(response?.data));
         // console.log("Response:", response.data);
@@ -225,6 +231,15 @@ export default {
 </script>
 
 <style scoped>
+/* Card-like form appearance */
+ion-list {
+  background: var(--card-background);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
 #container strong {
   font-size: 20px;
   line-height: 26px;

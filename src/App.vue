@@ -114,7 +114,7 @@ const appPages = [
   },
 
   {
-    title: "Account Details",
+    title: "User Details",
     url: "/UserDetails",
     iosIcon: mailOutline,
     mdIcon: mailSharp,
@@ -126,19 +126,19 @@ const appPages = [
     mdIcon: sendSharp,
   },
   {
-    title: "Other bank fund transfer",
+    title: "Other Bank Fund Transfer",
     url: "/OtherBankTransfer",
     iosIcon: sendOutline,
     mdIcon: sendSharp,
   },
   {
-    title: "Add beneficiery",
+    title: "Add Beneficiery",
     url: "/AddBeneficiary",
     iosIcon: personAddOutline,
     mdIcon: personAddSharp,
   },
   {
-    title: "Remove beneficiery",
+    title: "Remove Beneficiery",
     url: "/RemoveBeneficiary",
     iosIcon: closeCircleOutline,
     mdIcon: closeCircleSharp,
@@ -236,7 +236,7 @@ ion-menu.md ion-item ion-icon {
 }
 
 ion-menu.md ion-item ion-label {
-  font-weight: 500;
+  font-weight: 550;
 }
 
 ion-menu.ios ion-content {

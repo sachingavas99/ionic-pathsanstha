@@ -25,9 +25,10 @@ axios.defaults.headers.common = {
 // const baseUrl = "https://203.192.231.218:8443";
 // const apiUrlCallUrl = "http://localhost:3000";
 const apiUrlCallUrl = "https://ionic-server-proxy.vercel.app/";
+// const apiUrlCallUrl = "https://61.0.40.6:3000/";
 
-const baseUrl1 = "https://103.93.97.207:8443";
-const baseUrl2 = "https://malkapururbansoc.in:8443";
+const baseUrl2 = "https://bnspmobile.in:8443";
+const baseUrl1 = "https://103.86.68.219:8443";
 
 const checkRequest = async (url, params, attempt = 1) => {
   const baseUrl = attempt === 1 ? baseUrl1 : baseUrl2;

@@ -7,7 +7,7 @@
         <ion-buttons slot="start">
           <ion-menu-button color="primary"></ion-menu-button>
         </ion-buttons>
-        <ion-title>Add beneficiary</ion-title>
+        <ion-title>Add Beneficiary</ion-title>
       </ion-toolbar>
     </ion-header>
 
@@ -26,7 +26,7 @@
               error-text="Invalid beneficiary account"
               @input="validateForm"
             >
-              <div slot="label">
+              <div slot="label" class="clabel">
                 Beneficiary Account Number
                 <ion-text color="danger">(Required)</ion-text>
               </div>
@@ -45,7 +45,7 @@
               error-text="Invalid beneficiary account"
               @input="validateForm"
             >
-              <div slot="label">
+              <div slot="label" class="clabel">
                 Confirm Beneficiary Account Number
                 <ion-text color="danger">(Required)</ion-text>
               </div>
@@ -64,7 +64,7 @@
               error-text="Invalid IFSC Number"
               @input="validateForm"
             >
-              <div slot="label">
+              <div slot="label" class="clabel">
                 IFSC Number <ion-text color="danger">(Required)</ion-text>
               </div>
             </ion-input>
@@ -82,7 +82,7 @@
               error-text="Invalid Beneficiary Name."
               @input="validateForm"
             >
-              <div slot="label">
+              <div slot="label" class="clabel">
                 Beneficiary Name <ion-text color="danger">(Required)</ion-text>
               </div>
             </ion-input>
@@ -100,7 +100,7 @@
               error-text="Invalid Bank Name."
               @input="validateForm"
             >
-              <div slot="label">
+              <div slot="label" class="clabel">
                 Bank Name <ion-text color="danger">(Required)</ion-text>
               </div>
             </ion-input>
@@ -201,14 +201,17 @@ export default {
 
         this.loadderOn();
         const userId = this.loggedInUserId();
-        const response = await api.post("/vcp.java/servlet/AddBeneficiary", {
-          email: userId,
-          bene_account: this.ben_account,
-          bene_ifsc: this.ifsc_code,
-          bene_name: this.bene_name,
-          bene_bankname: this.bank_name,
-          type: "A",
-        });
+        const response = await api.post(
+          "/webbank.java/servlet/AddBeneficiary",
+          {
+            email: userId,
+            bene_account: this.ben_account,
+            bene_ifsc: this.ifsc_code,
+            bene_name: this.bene_name,
+            bene_bankname: this.bank_name,
+            type: "A",
+          }
+        );
 
         if (response?.data?.message == "Success") {
           this.success("Beneficiary added successfully.");
@@ -230,8 +233,21 @@ export default {
 </script>
 
 <style scoped>
+/* Card-like form appearance */
+ion-list {
+  background: var(--card-background);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
 ion-input {
   text-transform: uppercase;
+}
+
+.clabel {
+  text-transform: none;
 }
 
 #container strong {

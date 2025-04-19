@@ -15,9 +15,9 @@
       <div class="container">
         <ion-grid class="header-col">
           <ion-row>
-            <ion-col>ACCOUNT</ion-col>
-            <ion-col>ACCOUNT TYPE</ion-col>
-            <ion-col>BALANCE</ion-col>
+            <ion-col>ACCOUNT CODE</ion-col>
+            <ion-col class="colname">TYPE</ion-col>
+            <ion-col class="balance">BALANCE</ion-col>
           </ion-row>
         </ion-grid>
 
@@ -25,7 +25,7 @@
           <ion-row v-for="(transaction, index) in transactions" :key="index">
             <ion-col>{{ transaction.ACCOUNT }}</ion-col>
             <ion-col class="colname">{{ transaction.TYPE_NAME }}</ion-col>
-            <ion-col>{{ transaction.BALANCE }}</ion-col>
+            <ion-col class="balance">{{ transaction.BALANCE }}</ion-col>
           </ion-row>
         </ion-grid>
 
@@ -75,10 +75,13 @@ export default {
       try {
         this.loadderOn();
         const userId = this.loggedInUserId();
-        const response = await api.post("/vcp.java/servlet/MobileStatement", {
-          email: userId,
-          type: "C",
-        });
+        const response = await api.post(
+          "/webbank.java/servlet/MobileStatement",
+          {
+            email: userId,
+            type: "C",
+          }
+        );
         // console.log(JSON.stringify(response?.data));
 
         // console.log("Response:", response.data);
@@ -124,9 +127,16 @@ export default {
 .header-col {
   font-weight: bold;
   text-align: center;
+  background-color: #52545d; /* Light purple header */
+  color: white; /* Text color for headers */
 }
+
+.balance {
+  text-align: right;
+}
+
 ion-title {
-  color: #7c89e3;
+  /* color: #7c89e3; */
   font-size: 25px;
 }
 .data-col {
@@ -134,7 +144,7 @@ ion-title {
   text-align: center;
 }
 .colname {
-  font-size: 12px;
+  /* font-size: 12px; */
   text-align: left;
 }
 </style>
