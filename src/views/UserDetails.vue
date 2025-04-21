@@ -168,8 +168,9 @@ ion-list {
 .container p {
   font-size: 14px;
   line-height: 22px;
-  color: #0f0e0e;
-  /* font-weight: bold; */
+  color: teal;
+
+  font-weight: bold;
   margin: 0;
 }
 
